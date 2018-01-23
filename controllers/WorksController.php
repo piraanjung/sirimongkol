@@ -113,6 +113,15 @@ class WorksController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionGetWorkLists($wg_id){
+        $list = Works::find()->where(['wg_id' => $wg_id])->all();
+        $str = "<option>เลือก</option>";
+        foreach($lists as $list){
+            $str += "<option value=".$list['id'].">".$list['work_name']."</option>";
+        }
+        return $str;
+    }
+
     /**
      * Finds the Works model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

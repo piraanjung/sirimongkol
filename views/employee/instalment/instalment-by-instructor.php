@@ -90,8 +90,13 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                 'prompt' => 'เลือก...'])->label('หมวดงาน'); ?>
             </div>
             <div class="col-md-3 col-xs-12 form-group">
-                <label class="control-label ">ชนิดงาน</label>
-                <select id="workname" name="Laborcostdetails[work_type]" 
+                <label class="control-label ">กลุ่มงาน</label>
+                <select id="workgroup" name="Laborcostdetails[workgroup]" 
+                    class="form-control"></select>
+            </div>
+            <div class="col-md-3 col-xs-12 form-group">
+                <label class="control-label ">งาน</label>
+                <select id="works" name="Laborcostdetails[works]" 
                     class="form-control"></select>
             </div>
             <div class="col-md-3 col-xs-12 form-group">
@@ -100,18 +105,19 @@ if(Yii::$app->session->getFlash('save_res')!=""){
 
             </div>
 
-            <div class="col-md-3">
-                <?= $form->field($model, 'amount')->textInput()->label('จำนวนจ่าย');?>
-            </div>
+
         </div>
         <div class="row">
-            <div class="col-md-12 col-xs-12">
+            <div class="col-md-3 col-xs-12">
+                <?= $form->field($model, 'amount')->textInput()->label('จำนวนจ่าย');?>
+            </div>
+            <div class="col-md-9 col-xs-12">
             <?= $form->field($model, 'comment')->textArea()->label('หมายเหตุ');?>
             </div>
         </div>
         <input type="hidden" name="hidden" value="addlists">
-        <button type="submit" class="btn btn-raised">เพิ่มรายการ</button>
-
+        <button type="submit" class="btn btn-success pull-right">เพิ่มรายการ</button>
+        <br style="clear:both">
         <?php ActiveForm::end(); ?>
     </div>
 
@@ -221,23 +227,22 @@ $script = <<< JS
     $('#instalmentcostdetails-workclassify_id').change(function(){
         $.ajax({
             type : 'POST',
-            url  : 'index.php?r=work-type/worklists&id='+$(this).val(),
+            url  : 'index.php?r=work-group/work-group-lists&wc_id='+$(this).val(),
            // data : {id: $(this).val()},
             success : function(data){
-                $( "#workname" ).html( data );
+                $( "#workgroup" ).html( data );
             }
 
         })
     });
-    $('#workname').change(function(){
+    $('#workgroup').change(function(){
         console.log($(this).val())
         $.ajax({
             type : 'POST',
-            url  : 'index.php?r=work-type/get-worktype-costs&id='+$(this).val(),
+            url  : 'index.php?r=works/get-work-lists&wg_id='+$(this).val(),
            // data : {id: $(this).val()},
             success : function(data){
-                $( "#instalmentcostdetails-ceiling_money" ).val( data );
-                // console.log(data)
+                $( "#works" ).html( data );
             }
 
         })
