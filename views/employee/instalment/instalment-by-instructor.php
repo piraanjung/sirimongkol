@@ -30,7 +30,7 @@ $moneyType = ArrayHelper::map(MoneyType::find()->all(), 'id', 'name');
 $workClassify = ArrayHelper::map(\app\models\WorkCategory::find()
     ->select('id, wc_name')->all(), 'id', 'wc_name');
     
-$houses = Arrayhelper::map(Houses::find()->all(), 'id', 'house_id');
+$houses = Arrayhelper::map(Houses::find()->all(), 'id', 'house_name');
 
 if(Yii::$app->session->getFlash('save_res')!=""){
     echo Alert::widget([
@@ -94,7 +94,7 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                 <select id="workname" name="Laborcostdetails[work_type]" 
                     class="form-control"></select>
             </div>
-            <div class="col-md-3 col-xs-12">
+            <div class="col-md-3 col-xs-12 form-group">
                 <label class="control-label">งบควบคุม</label>
                 <input type="text" value="<?=$inst;?>" class="form-control" readonly="readonly">
 
