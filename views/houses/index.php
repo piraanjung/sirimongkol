@@ -25,11 +25,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                // 'id',
+                'id',
                 'house_name',
-                'house_model_id',
-                'project_id',
-                'house_status',
+                [ 
+                    'attribute' => 'house_model_id',
+                    'value' => function($model){
+                        $hm = app\models\HouseModel::find()->where(['id' => $model['house_model_id']])->all();
+                      
+                        return $hm[0]['hm_name'];
+                    }
+                ],
+                [
+                    'attribute' => 'project_id',  
+                    'value'     => function($model){
+                     $project = app\models\Project::find()->where(['id' => $model['project_id']])->one();
+                     return $project['projectname'];   
+                    }   
+                ],
+                
+                [
+                    'attribute' => 'house_status',
+                    'value'     => function($model){
+                        $hs = app\models\Houses::find()->where(['id' => $model['house_status']])->one();
+                     return $hs['house_status'];   
+                    }
+                ],
+                
+                // 'house_status',
                 //'create_date',
                 //'update_date',
 
