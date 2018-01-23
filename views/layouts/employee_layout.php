@@ -118,15 +118,10 @@ AppAsset::register($this);
             </span>
           </a>
           <ul class="treeview-menu" style="">
-        <li>
-          
-          <?= Html::a('<i class="fa fa-circle-o"></i>สร้างงวดจ่ายเงิน', ['/instalment/create']) ?>
-        </li>
-        <li>
-
-          <?= Html::a('<i class="fa fa-circle-o"></i>แปลงบ้าน', ['/houses/index']) ?>
-        </li>
-      </ul>
+            <li>
+              <?= Html::a('<i class="fa fa-circle-o"></i>จ่ายเงินงวดงานรายช่าง', ['/employee/instalment/index']) ?>
+            </li>
+          </ul>
         </li>
        
     
