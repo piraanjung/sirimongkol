@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 <div class="well">
 <?php if(count($models) >0){ ?>
-<?php $form = ActiveForm::begin(['action' => ['with-drawn/create'],'options' => ['method' => 'post']]) ?>
+<?php $form = ActiveForm::begin(['action' => ['employee/with-drawn/create'],'options' => ['method' => 'post']]) ?>
     <p>
     ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  30 พฤศจิกายน 2560 (งวด 11/2.60)
     </p>
@@ -90,18 +90,18 @@ $this->params['breadcrumbs'][] = $this->title;
                           ";
                     $curname = $model['contructor_id'];
                     $sum_id= $model['summoney_id'];
-                    $total+=$sum_by_payee;
-                    $sum_by_payee =0;
+                    $total+=$sum_by_User;
+                    $sum_by_User =0;
                     $showname =1;
                 ?>
                 <tr>
                 <td><?=++$i?></td>
                 <td>
                 <?php 
-                    $payee = app\models\Payee::find()
+                    $User = app\models\User::find()
                         ->where(['id'=>$model['contructor_id']])->one();
                         if($showname ==1){
-                            echo $payee['name'];
+                            echo $User['name'];
                             $showname =0;
                         }
                 ?>
@@ -139,10 +139,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=++$i?></td>
                     <td>
                     <?php 
-                        $payee = app\models\Payee::find()
+                        $user = app\models\user::find()
                             ->where(['id'=>$model['contructor_id']])->one();
                             if($showname ==1){
-                                echo $payee['name'];
+                                echo $user['username'];
                                 $showname =0;
                             }
                     ?>
@@ -150,7 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=$model['house_id'];?></td>
                     <td>
                     <?php 
-                        $wc = \app\models\WorkClassify::find()
+                        $wc = \app\models\WorkCategory::find()
                             ->where(['id'=>$model['workclassify_id']])->one();
                         echo $wc['wc_name'];
                     ?>
@@ -163,7 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                     </td>
                     <td class="_number">
-                    <?=number_format($model['ceiling_money'],2);?>
+                    
                 </td>
                     <td class="_number">
                     <?php 

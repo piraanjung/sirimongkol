@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     'paid_by'=> function($url, $model){
                         // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
-                        return Html::a('2.เลือกวิธีจ่าย','index.php?r=with-drawn&instalment_id='.$model->id,
+                        return Html::a('2.เลือกวิธีจ่าย','index.php?r=employee/with-drawn&instalment_id='.$model->id,
                                 ['class' => 'btn btn-success']);
                     },
                     'details'=> function($url, $model){
