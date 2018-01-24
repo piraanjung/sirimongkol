@@ -114,12 +114,16 @@ class WorksController extends Controller
     }
 
     public function actionGetWorkLists($wg_id){
-        $list = Works::find()->where(['wg_id' => $wg_id])->all();
-        $str = "<option>เลือก</option>";
+        $lists = Works::find()->where(['wg_id' => $wg_id])->all();
+        echo "<option>เลือก</option>";
         foreach($lists as $list){
-            $str += "<option value=".$list['id'].">".$list['work_name']."</option>";
+            echo "<option value=".$list['id'].">".$list['work_name']."</option>";
         }
-        return $str;
+    }
+
+    public function actionGetWorkControlStatement($w_id){
+        $w = Works::find()->where(['id' => $w_id])->one();
+        echo $w['work_control_statement'];
     }
 
     /**

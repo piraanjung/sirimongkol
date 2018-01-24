@@ -101,13 +101,12 @@ class WorkGroupController extends Controller
 
     public function actionWorkGroupLists($wc_id){
         $lists = WorkGroup::find()->where(['wc_id' => $wc_id])->all();
-        $str = "<option>เลือก</option>";
+        echo "<option>เลือก</option>";
         foreach($lists as $list){
-            $str += "<option value=".$list['id'].">".$list['wg_name']."</option>";
+            echo "<option value=".$list['id'].">".$list['wg_name']."</option>";
         }
-        return $str;
     }
-
+ 
     /**
      * Deletes an existing WorkGroup model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

@@ -31,33 +31,41 @@ $this->params['breadcrumbs'][] = $this->title;
             'monthly',
             'year',
             'project_id',
-            'editor_id',
+            [
+                'attribute' =>'editor_id',
+                'value'     => function($model){
+                    $user = \app\models\User::find()
+                                ->where(['user.id' => $model->editor_id])->one();
+                    return $user['username'];
+                }
+            ],
             // 'create_date',
             // 'update_date',
 
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{add_item} {paid_by} {details}',
-                'width' => '20%',
+                'width' => '35%',
+                'header' => '',
                 'buttons'=>[
 
                     'add_item'=> function($url, $model){
                             // $t = 'instalment/instalment_by_instructor&instalment_id='.$model->id;
                             return Html::a('1.จ่ายเงินรายช่าง', 
                             ['employee/instalment/instalment_by_instructor','instalment_id'=>$model->id],
-                                ['class'=> 'btn btn-block btn-raised btn-primary  custom_button']
+                                ['class'=> 'btn btn-primary  custom_button']
                             );
                         },
                     'paid_by'=> function($url, $model){
                         // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
                         return Html::a('2.เลือกวิธีจ่าย','index.php?r=with-drawn&instalment_id='.$model->id,
-                                ['class' => 'btn btn-block btn-raised btn-success']);
+                                ['class' => 'btn btn-success']);
                     },
                     'details'=> function($url, $model){
                         // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
                         return Html::a('3.รายงานสรุป', 
                         ['employee/instalment/instalment_by_instructor_detail','instalment_id'=>$model->id],
-                            ['class'=> 'btn btn-block btn-raised btn-primary  custom_button']
+                            ['class'=> 'btn btn-primary  custom_button']
                         );
                     },
                 ]

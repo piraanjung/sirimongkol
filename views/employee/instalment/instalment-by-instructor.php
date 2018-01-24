@@ -101,7 +101,7 @@ if(Yii::$app->session->getFlash('save_res')!=""){
             </div>
             <div class="col-md-3 col-xs-12 form-group">
                 <label class="control-label">งบควบคุม</label>
-                <input type="text" value="<?=$inst;?>" class="form-control" readonly="readonly">
+                <input type="text" value="" class="form-control" id="w_controlstatement" name="w_controlstatement" readonly="readonly">
 
             </div>
 
@@ -152,23 +152,23 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                         <td>
 
                         <?php
-                        $payee = Payee::find()->select('name')
+                        $payee = \app\models\User::find()->select('username')
                             ->where(['id' => $ls['Instalmentcostdetails']['contructor_id']])->one();
-                        echo $payee['name'];
+                        echo $payee['username'];
                         ?>
                                 <input type="hidden" name="aa[contructor_id][]" value="<?=$ls['Instalmentcostdetails']['contructor_id'];?>">
                         </td>
                         <td>
                         <?php
-                            $instalment_no = Form::find()->select('instalment_no')
+                            $instalment_no = \app\models\Instalment::find()->select('instalment')
                                 ->where(['id' => $ls['Instalmentcostdetails']['instalment_id']])->one();
-                            echo $instalment_no['instalment_no'];
+                            echo $instalment_no['instalment'];
                         ?>
                             <input type="hidden" name="aa[instalment_id][]" value="<?=$ls['Instalmentcostdetails']['instalment_id'];?>">
                         </td>
                         <td>
                             <?php
-                            $work_classify_id = \app\models\WorkClassify::find()->select('wc_name')
+                            $work_classify_id = \app\models\WorkCategory::find()->select('wc_name')
                                 ->where(['id' => $ls['Instalmentcostdetails']['workclassify_id']])->one();
                             echo $work_classify_id['wc_name'];
                             ?>
@@ -176,16 +176,21 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                         </td>
                         <td>
                             <?php 
-                            $worktype = \app\models\WorkType::find()->select('work_type_name')
+                            $worktype = \app\models\WorkGroup::find()->select('work_type_name')
                                 ->where(['id'=> $ls['Laborcostdetails']['work_type'] ])->one();
                             echo $worktype['work_type_name'];
                             ?>
                             <input type="hidden" name="aa[work_type][]"  
                                 value="<?=$ls['Laborcostdetails']['work_type'];?>">
                         </td>
-                        <td style="text-align:right">
-                            <?=number_format($ls['Instalmentcostdetails']['ceiling_money'],2);?>
-                                <input type="hidden" name="aa[ceiling_money][]" value="<?=$ls['Instalmentcostdetails']['ceiling_money'];?>">
+                        <td>
+                            <?php 
+                            $worktype = \app\models\Works::find()->select('work_name')
+                                ->where(['id'=> $ls['Laborcostdetails']['work_type'] ])->one();
+                            echo $worktype['work_name'];
+                            ?>
+                            <input type="hidden" name="aa[work_type][]"  
+                                value="<?=$ls['Laborcostdetails']['work_type'];?>">
                         </td>
                         <td style="text-align:right">
                             <?=number_format($ls['Instalmentcostdetails']['amount'],2);?>
@@ -247,6 +252,18 @@ $script = <<< JS
 
         })
     });
+
+    $('#works').change(function(){
+        $.ajax({
+            type : 'POST',
+            url  : 'index.php?r=works/get-work-control-statement&w_id='+$(this).val(),
+               success : function(data){
+                $( "#w_controlstatement" ).val( data );
+            }
+
+        })
+    });
+
 
     $('#paid_amount_id').keyup(function(){
         var checkzero = $(this).val();
