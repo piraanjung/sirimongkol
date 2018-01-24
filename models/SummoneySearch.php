@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Instalmentcostdetails;
+use app\models\Summoney;
 
 /**
- * InstalmentcostdetailstSearch represents the model behind the search form about `app\models\Instalmentcostdetails`.
+ * SummoneySearch represents the model behind the search form of `app\models\Summoney`.
  */
-class InstalmentcostdetailstSearch extends Instalmentcostdetails
+class SummoneySearch extends Summoney
 {
     /**
      * @inheritdoc
@@ -18,9 +18,8 @@ class InstalmentcostdetailstSearch extends Instalmentcostdetails
     public function rules()
     {
         return [
-            [['id', 'instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'summoney_id', 'saver_id'], 'integer'],
-            [['amount'], 'number'],
-            [['comment'], 'string'],
+            [['id', 'contructor_id', 'instalment_id'], 'integer'],
+            [['total'], 'number'],
             [['create_date', 'update_date'], 'safe'],
         ];
     }
@@ -43,7 +42,7 @@ class InstalmentcostdetailstSearch extends Instalmentcostdetails
      */
     public function search($params)
     {
-        $query = Instalmentcostdetails::find();
+        $query = Summoney::find();
 
         // add conditions that should always apply here
 
@@ -62,16 +61,9 @@ class InstalmentcostdetailstSearch extends Instalmentcostdetails
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'instalment_id' => $this->instalment_id,
+            'total' => $this->total,
             'contructor_id' => $this->contructor_id,
-            'house_id' => $this->house_id,
-            'workclassify_id' => $this->workclassify_id,
-            'worktype_id' => $this->worktype_id,
-            'money_type_id' => $this->money_type_id,
-            'amount' => $this->amount,
-            'summoney_id' => $this->summoney_id,
-            'saver_id' => $this->saver_id,
-            'comment' => $this->comment,
+            'instalment_id' => $this->instalment_id,
             'create_date' => $this->create_date,
             'update_date' => $this->update_date,
         ]);

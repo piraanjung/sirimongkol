@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Project;
-use app\models\ProjectSearch;
+use app\models\Summoney;
+use app\models\SummoneySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProjectController implements the CRUD actions for Project model.
+ * SummoneyController implements the CRUD actions for Summoney model.
  */
-class ProjectController extends Controller
+class SummoneyController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,13 +30,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * Lists all Project models.
+     * Lists all Summoney models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $this->layout = "admin";   
-        $searchModel = new ProjectSearch();
+        $searchModel = new SummoneySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,48 +45,29 @@ class ProjectController extends Controller
     }
 
     /**
-     * Displays a single Project model.
+     * Displays a single Summoney model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $this->layout = "admin";  
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Project model.
+     * Creates a new Summoney model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
-    {  
-        $this->layout = "admin";
-        $model = new Project();
+    {
+        $model = new Summoney();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            $start_arr = explode("-",$_REQUEST['Project']['start_date']);
-            $end_arr = explode("-",$_REQUEST['Project']['end_date']);
-            
-            $start_date = $start_arr[2]."-".$start_arr[1]."-".$start_arr[0];
-            $end_date = $end_arr[2]."-".$end_arr[1]."-".$end_arr[0];
-            $model->start_date = $start_date;
-            $model->end_date = $end_date;
-            $model->create_date = date('Y-m-d');
-            $model->update_date = date('Y-m-d');
-            $model->save(); 
-
-
-            Yii::$app->getSession()->setFlash('alert',[
-                'body'=>'บันทึกเสร็จเรียบร้อย!',
-                'options'=>['class'=>'alert-success']
-            ]);
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -96,7 +76,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Updates an existing Project model.
+     * Updates an existing Summoney model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -104,7 +84,6 @@ class ProjectController extends Controller
      */
     public function actionUpdate($id)
     {
-        $this->layout = "admin";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -117,7 +96,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Deletes an existing Project model.
+     * Deletes an existing Summoney model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -131,15 +110,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds the Project model based on its primary key value.
+     * Finds the Summoney model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Project the loaded model
+     * @return Summoney the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Project::findOne($id)) !== null) {
+        if (($model = Summoney::findOne($id)) !== null) {
             return $model;
         }
 

@@ -14,7 +14,6 @@ use Yii;
  * @property integer $workclassify_id
  * @property integer $worktype_id
  * @property integer $money_type_id
- * @property double $ceiling_money
  * @property double $amount
  * @property integer $summoney_id
  * @property integer $saver_id
@@ -41,7 +40,7 @@ class Instalmentcostdetails extends \yii\db\ActiveRecord
             [['instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'amount', 'summoney_id', 'saver_id'], 'required'],
             [['instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'summoney_id', 'saver_id'], 'integer'],
             [['comment'], 'string'],
-            [['amount', 'ceiling_money'], 'number'],
+            [['amount'], 'number'],
             [['create_date', 'update_date'], 'safe'],
         ];
     }
@@ -59,7 +58,6 @@ class Instalmentcostdetails extends \yii\db\ActiveRecord
             'workclassify_id' => 'Workclassify ID',
             'worktype_id' => 'Worktype ID',
             'money_type_id' => 'Money Type ID',
-            'ceiling_money' =>'งบควบคุม',
             'amount' => 'Amount',
             'summoney_id' => 'Summoney ID',
             'saver_id' => 'Saver ID',

@@ -176,21 +176,21 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                         </td>
                         <td>
                             <?php 
-                            $worktype = \app\models\WorkGroup::find()->select('work_type_name')
-                                ->where(['id'=> $ls['Laborcostdetails']['work_type'] ])->one();
-                            echo $worktype['work_type_name'];
+                            $worktype = \app\models\WorkGroup::find()->select('wg_name')
+                                ->where(['id'=> $ls['Laborcostdetails']['workgroup'] ])->one();
+                            echo $worktype['wg_name'];
                             ?>
                             <input type="hidden" name="aa[work_type][]"  
-                                value="<?=$ls['Laborcostdetails']['work_type'];?>">
+                                value="<?=$ls['Laborcostdetails']['workgroup'];?>">
                         </td>
                         <td>
                             <?php 
                             $worktype = \app\models\Works::find()->select('work_name')
-                                ->where(['id'=> $ls['Laborcostdetails']['work_type'] ])->one();
+                                ->where(['id'=> $ls['Laborcostdetails']['workgroup'] ])->one();
                             echo $worktype['work_name'];
                             ?>
                             <input type="hidden" name="aa[work_type][]"  
-                                value="<?=$ls['Laborcostdetails']['work_type'];?>">
+                                value="<?=$ls['Laborcostdetails']['workgroup'];?>">
                         </td>
                         <td style="text-align:right">
                             <?=number_format($ls['Instalmentcostdetails']['amount'],2);?>

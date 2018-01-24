@@ -15,6 +15,7 @@ use app\models\WorkClassify;
 use app\models\Laborcostdetails;
 use yii\db\Query;
 
+
 /**
  * InstalmentController implements the CRUD actions for Instalment model.
  */
@@ -147,7 +148,7 @@ class InstalmentController extends Controller
             if($_REQUEST['hidden'] =="addlists"){
                 array_push( $_SESSION['laborcostlist'], Yii::$app->request->post());
             }else if($_REQUEST['hidden'] =="savelists"){
-                
+                // \app\models\Methods::print_array($_SESSION['laborcostlist']);
                 //ทำการบันทึกข้อมูลการจ่ายงวดรายช่าง
                 $inst =  $this->saveInstalmentDetails($_SESSION['laborcostlist']);
                 // บันทึกผลรวมเงินของช่างแต่ละคนใน summoney table
@@ -181,6 +182,7 @@ class InstalmentController extends Controller
         $paidbycash =array();
         $paidbybanks = array();
         // compose the query
+        
         $query->select('b.*, a.total, c.instalment, c.monthly, c.year')
             ->from('summoney a')
             ->leftJoin('instalmentcostdetails b', 'a.instalment_id = b.instalment_id')
@@ -192,7 +194,7 @@ class InstalmentController extends Controller
         $rows = $query->all();
         $command = $query->createCommand();
         $rows = $command->queryAll();
-        
+      
         //
         $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id);//paidtype =1, instalment_id
         $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id);
@@ -242,7 +244,7 @@ class InstalmentController extends Controller
     }
 
     protected function saveInstalmentDetails($lists){
-        // \app\models\Form::print_array($lists);
+        //\app\models\Methods::print_array($lists);
         $session = Yii::$app->session;
         foreach($lists  as $key => $req){
             $model = new \app\models\Instalmentcostdetails ();
@@ -250,9 +252,9 @@ class InstalmentController extends Controller
             $model->contructor_id      = $req['Instalmentcostdetails']['contructor_id'];
             $model->house_id           = $req['Instalmentcostdetails']['house_id'];
             $model->workclassify_id    = $req['Instalmentcostdetails']['workclassify_id'];
-            $model->worktype_id        = $req['Laborcostdetails']['work_type'];
+            $model->worktype_id        = $req['Laborcostdetails']['workgroup'];
             $model->money_type_id      = $req['Instalmentcostdetails']['money_type_id'];
-            $model->ceiling_money      = $req['Instalmentcostdetails']['ceiling_money'];
+            // $model->ceiling_money      = 0;//$req['Instalmentcostdetails']['ceiling_money'];
             $model->amount             = $req['Instalmentcostdetails']['amount'];
             $model->summoney_id        = 0;
             $model->saver_id           = Yii::$app->user->identity->id;

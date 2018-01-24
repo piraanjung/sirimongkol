@@ -31,7 +31,7 @@ use kartik\date\DatePicker;
                     'options' => ['placeholder' => 'Enter  date ...'],
                     'pluginOptions' => [
                         'autoclose'=>true,
-                        'format' => 'd-M-yyyy'
+                        'format' => 'd-m-yyyy'
                     ]
                 ]);
             ?>
@@ -42,7 +42,7 @@ use kartik\date\DatePicker;
                     'options' => ['placeholder' => 'Enter  date ...'],
                     'pluginOptions' => [
                         'autoclose'=>true,
-                        'format' => 'd-M-yyyy'
+                        'format' => 'd-m-yyyy'
                     ]
                 ]);
             ?>

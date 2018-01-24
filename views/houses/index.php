@@ -2,13 +2,20 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\HousesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'แปลงบ้าน';
 $this->params['breadcrumbs'][] = $this->title;
+
+if(Yii::$app->session->hasFlash('alert')){
+    echo \yii\bootstrap\Alert::widget([
+    'body'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'body'),
+    'options'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'options'),
+    ]);
+    } 
 ?>
 <div class="houses-index">
 
