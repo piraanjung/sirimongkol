@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+  <div class="well">
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -37,5 +37,5 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
         ],
     ]) ?>
-
+</div>
 </div>

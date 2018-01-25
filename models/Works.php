@@ -40,8 +40,8 @@ class Works extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'work_name' => 'Work Name',
-            'wg_id' => 'Wg ID',
+            'work_name' => 'ชื่องาน',
+            'wg_id' => 'ชื่อกลุ่มงาน',
         ];
     }
 }
