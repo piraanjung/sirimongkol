@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use app\models\Project;
+use app\models\Housemodels;
+use yii\db\Query;
 
 /**
  * This is the model class for table "houses".
@@ -52,5 +55,39 @@ class Houses extends \yii\db\ActiveRecord
             'create_date' => 'วันที่บันทึกข้อมูล',
             'update_date' => 'วันที่แก้ไขข้อมูล',
         ];
+    }
+
+    public function getProject(){
+        return $this->hasOne(Project::className(), ['project_id' => 'project_id']);
+    }
+
+    public function getHousemodels(){
+        return $this->hasOne(Housemodels::className(), ['id' => 'house_model']);
+    }
+
+    public static function countHousesByStatus($status, $project_id){
+        $count = Houses::find()
+            ->where(['house_status' => $status])
+            ->andWhere(['project_id' => $project_id])
+            ->all();
+            // \app\models\Methods::print_array($count);
+        return count($count);
+    }
+
+    public static function sumControllStatement(){
+        $sum = Houses::find()->sum('control_statement');
+        return $sum;
+    }
+
+    public function sumPaidAmountByProject($project_id){
+        $query = new Query;
+        $query->select('sum(lb.amount) as sumpaid_amount_by_project')
+            ->from('houses h')
+            ->leftJoin('instalmentcostdetails lb', 'lb.house_id = h.id')
+            ->where(['h.project_id' => $project_id]);
+        $sumpaid_amount = $query->all();
+                    // \app\models\Methods::print_array($sumpaid_amount);
+
+        return $sumpaid_amount[0]['sumpaid_amount_by_project'];
     }
 }
