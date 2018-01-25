@@ -167,16 +167,3 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
-<script>
-    var a =0;
-    $('.dropdown-toggle').click(function(){
-        if(a ==0){
-            $('.user-menu').attr('class', 'dropdown user user-menu open');
-            a=1;
-        }else{
-            $('.user-menu').attr('class', 'dropdown user user-menu');
-            a=0; 
-        }
-        
-    })
-</script>

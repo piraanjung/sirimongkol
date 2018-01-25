@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">ผู้รับเหมา</a></li>
     <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">สรุปการจ่ายเงินให้ช่าง
+    <a class="dropdown-toggle contructor-menu" data-toggle="dropdown" href="#">สรุปการจ่ายเงินให้ช่าง
         <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu">
+    <ul class="contructor-ul dropdown-menu">
         <li><a data-toggle="tab" href="#paid_by_cash">- จ่ายเงินสด</a></li>
         <li><a data-toggle="tab" href="#paid_by_bank">- โอนเงินผ่านธนาคาร</a></li>
     </ul>
