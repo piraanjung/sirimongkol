@@ -11,12 +11,14 @@ $this->params['breadcrumbs'][] = ['label' => 'งวดจ่ายเงิน'
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="instalment-create">
-    <div class="well">
+    
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-        'monthly' =>$monthly
-    ]) ?>
+    <div class="box box-success">
+      <div class="box-body">
+        <?= $this->render('_form', [
+            'model' => $model,
+            'monthly' =>$monthly
+        ]) ?>
+       </div> 
     </div>
 </div>

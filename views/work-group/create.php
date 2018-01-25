@@ -13,9 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="work-group-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-<div class="box box-success">
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-</div>
+    <div class="box box-success">
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
+    </div>
 </div>

@@ -158,7 +158,24 @@ AppAsset::register($this);
       </ul>
       </li>
       
-      
+      <li class="active treeview menu-open">
+        <a href="#">
+          <i class="fa fa-laptop"></i>
+          <span>เกี่ยวกับธนาคาร</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+           <li>
+        <?= Html::a('<i class="fa fa-circle-o"></i>จัดการข้อมูลธนาคาร', ['/banks/index']) ?>
+        </li>
+        <li>
+        <?= Html::a('<i class="fa fa-circle-o"></i>เพิ่มข้อมูลธนาคารของผู้ใช้ระบบ', 
+              ['/user-bookbank-info/index']) ?>
+        </li>
+        </ul>
+      </li>
       <li class="active treeview menu-open">
         <a href="#">
           <i class="fa fa-laptop"></i>
