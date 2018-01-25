@@ -33,8 +33,9 @@ class SecurityController extends BaseSecurityController
                 return $this->redirect(['/employee/instalment/index']);
             }else if($model['user']['user_type_id']==3){
                 //ceo
+                return $this->redirect(['/ceo/ceo/index']);
             }
-            \app\models\Methods::print_array($model['user']);
+            // \app\models\Methods::print_array($model['user']);
             // $this->trigger(self::EVENT_AFTER_LOGIN, $event);
             // return $this->goBack();
         }
