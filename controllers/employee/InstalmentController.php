@@ -171,7 +171,7 @@ class InstalmentController extends Controller
         }else{
         
         }
-        // \app\models\Methods::print_array($_SESSION['laborcostlist']);
+        // 
         return $this->render('instalment-by-instructor',[
             'model' => $model,
             'addlist' => $_SESSION['laborcostlist'],
@@ -197,7 +197,7 @@ class InstalmentController extends Controller
         $rows = $query->all();
         $command = $query->createCommand();
         $rows = $command->queryAll();
-      
+        
         //
         $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id);//paidtype =1, instalment_id
         $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id);
@@ -210,6 +210,7 @@ class InstalmentController extends Controller
         $ksb = $this->getTransferDivideBank(5, $instalment_id, 2);
         $bkb = $this->getTransferDivideBank(6, $instalment_id, 2);
         $gsb = $this->getTransferDivideBank(7, $instalment_id, 2);
+        // \app\models\Methods::print_array($paidbycash);
         return $this->render('instalment_by_instructor_detail',[
             'models' => $rows,
             'paidbycash' => $paidbycash,
@@ -276,7 +277,7 @@ class InstalmentController extends Controller
        
     }
 
-    protected function sumAmountByIstalment(){
+    public function sumAmountByInstalment(){
         $query = new Query;
         // compose the query
         $query->select('sum(amount)as total, contructor_id, instalment_id')
@@ -311,11 +312,11 @@ class InstalmentController extends Controller
     private function getpaidByCashOrBank($paidtype, $instalment_id){
         // รายงานการจ่ายเงินงวดงานโดยจ่ายเงินสด
         $query = new Query();
-        $query->select('a.*, b.contructor_id, c.name, d.total, 
+        $query->select('a.*, b.contructor_id, c.username, d.total, 
                         e.paid_type, e.paid_amount,e.id')
                 ->from('instalment a')
                 ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-                ->leftJoin('payee c', 'b.contructor_id = c.id')
+                ->leftJoin('user c', 'b.contructor_id = c.id')
                 ->leftJoin('summoney d', 'c.id = d.contructor_id')
                 ->leftJoin('paidtype e', 'd.id = e.summoney_id')
                 ->where(['a.instalment' => $instalment_id])
@@ -329,11 +330,11 @@ class InstalmentController extends Controller
 
     private function getTransferDivideBank($bank_id, $instalment_id, $paidtype){
         $query = new Query();
-        $query->select('a.*, b.contructor_id, c.name, d.total, g.id as bank_id, 
+        $query->select('a.*, b.contructor_id, c.username, d.total, g.id as bank_id, 
                         e.paid_type, e.paid_amount,e.id, f.account_bank, g.name as bank')
             ->from('instalment a')
             ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-            ->leftJoin('payee c', 'b.contructor_id = c.id')
+            ->leftJoin('user c', 'b.contructor_id = c.id')
             ->leftJoin('summoney d', 'c.id = d.contructor_id')
             ->leftJoin('paidtype e', 'd.id = e.summoney_id')
             ->leftJoin('user_bookbank_info f', 'c.id = f.user_id')

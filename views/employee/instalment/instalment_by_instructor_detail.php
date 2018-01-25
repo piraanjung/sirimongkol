@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
     font-weight:bold
 }
 </style>
-<div class="well">
-
+<div class="box box-success">
+<div class="box-body">
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">ผู้รับเหมา</a></li>
     <li class="dropdown">
@@ -124,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-
+  </div>
 </div> <!-- well -->
 <?php
 // Form::print_array($models);

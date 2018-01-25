@@ -91,10 +91,10 @@
                     <td><?=++$i?></td>
                     <td>
                     <?php 
-                        $payee = app\models\Payee::find()
+                        $payee = app\models\User::find()
                             ->where(['id'=>$model['contructor_id']])->one();
                             if($showname ==1){
-                                echo $payee['name'];
+                                echo $payee['username'];
                                 $showname =0;
                             }
                     ?>
@@ -102,7 +102,7 @@
                     <td><?=$model['house_id'];?></td>
                     <td>
                     <?php 
-                        $wc = \app\models\WorkClassify::find()
+                        $wc = \app\models\WorkCategory::find()
                             ->where(['id'=>$model['workclassify_id']])->one();
                         echo $wc['wc_name'];
                     ?>
@@ -115,7 +115,7 @@
                     ?>
                     </td>
                     <td class="_number">
-                    <?=number_format($model['ceiling_money'],2);?>
+                    <!-- <number_format($model['ceiling_money'],2);?> -->
                 </td>
                     <td class="_number">
                     <?php 

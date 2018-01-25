@@ -224,9 +224,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </table>
     </div>
     <!-- <Html::a('บันทึก', ['create'], ['class' => 'btn  btn-success btn-raised']);?> -->
-    <input type="hidden" name="_instalment_id" value="<?=$models[0]['instalment_id']?>">
+    <input type="text" name="_instalment_id" value="<?=$models[0]['instalment_id']?>">
     <div class="form-group">
-        <?= Html::submitButton('บันทึก' , ['class' => 'btn btn-success btn-raised' ]) ?>
+        <?= Html::submitButton('บันทึก' , ['class' => 'btn btn-success pull-right' ]) ?>
     </div>
    
     <?php ActiveForm::end(); ?>

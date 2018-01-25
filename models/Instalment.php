@@ -62,7 +62,7 @@ class Instalment extends \yii\db\ActiveRecord
         $_year  = $_d_arr[0]+543;
         $_month = $_d_arr[1];
         $_day   = $_d_arr[2];
-        $moth_str = \app\models\Form::getMonth($_month);
+        $moth_str = \app\models\Methods::getMonth($_month);
         echo $_day." ".$moth_str." ".$_year;
     }
 }

@@ -20,6 +20,8 @@ class WithDrawnController extends \yii\web\Controller
             ->groupBy('id');
         $command = $query->createCommand();
         $rows = $command->queryAll();
+
+        // 
         return $this->render('index',[
             'models' => $rows
         ]);
@@ -28,7 +30,8 @@ class WithDrawnController extends \yii\web\Controller
     public function actionCreate(){
         $this->layout = "employee_layout";
         if(count(Yii::$app->request->post()) >0){
-            // \app\models\Form::print_array($_REQUEST['paidmethod']);
+            $this->sumAmountByInstalment($_REQUEST['_instalment_id']);
+
             foreach($_REQUEST['paidmethod'] as  $key => $pm ){
                 foreach($pm as $k => $val){
                     if($k =='cash' || $k =='bank'){
@@ -36,7 +39,7 @@ class WithDrawnController extends \yii\web\Controller
                             $model =  new \app\models\Paidtype();
                             $model->paid_amount = $val;
                             $model->paid_type   = $k == "cash" ? 1 : 2;
-                            $model->summoney_id = $pm['summoney_id'];
+                            $model->summoney_id = $this->getSummoneyId($_REQUEST['_instalment_id'], $key);
                             $model->create_date = date('Y-m-d H:i:s');
                             $model->update_date = date('Y-m-d H:i:s');
                             $model->save();
@@ -44,10 +47,50 @@ class WithDrawnController extends \yii\web\Controller
                     }
                 }
             }
-             
         }
-        return $this->redirect(['instalment/index']);
-        // \app\models\Form::print_array($_REQUEST);
+        return $this->redirect(['employee/instalment/index']);
+    }
+
+    public function sumAmountByInstalment($inst_id){
+        $query = new Query;
+        // compose the query
+        $query->select('sum(amount)as total, contructor_id, instalment_id')
+            ->from('instalmentcostdetails')
+            ->where(['instalment_id'=> $inst_id])
+            ->andWhere(['summoney_id' => 0])
+            ->groupBy('contructor_id');
+        // build and execute the query
+        $rows = $query->all();
+        // alternatively, you can create DB command and execute it
+        $command = $query->createCommand();
+        // $command->sql returns the actual SQL
+        $rows = $command->queryAll();
+
+        foreach($rows as $row){
+            $summoney = new \app\models\Summoney();
+            $summoney->total            = $row['total'];
+            $summoney->contructor_id    = $row['contructor_id'];
+            $summoney->instalment_id    = $row['instalment_id'];
+            $summoney->create_date      = date('y-m-d H:i:s');
+            $summoney->update_date      = date('y-m-d H:i:s');
+            if($summoney->save()){
+                // update summoney_id ใน instalmentcostdetails table รายช่าง
+                $update_query = \Yii::$app->db;
+                $command = $update_query->createCommand('UPDATE instalmentcostdetails SET summoney_id='.$summoney->id.'  
+                                 WHERE contructor_id ='. $summoney->contructor_id .' 
+                                 AND instalment_id = '. $summoney->instalment_id);
+                $command->execute();
+            }
+        }
+    }
+
+    private function getSummoneyId($inst_id, $const_id){
+        $constructor_id = \app\models\Summoney::find()
+                        ->select('id')
+                        ->where(['instalment_id' => $inst_id])
+                        ->andWhere(['contructor_id' => $const_id])
+                        ->one(); 
+        return $constructor_id['id'];
     }
 
 }
