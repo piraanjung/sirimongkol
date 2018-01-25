@@ -11,11 +11,11 @@ use yii\widgets\Pjax;
 $this->title = 'จ่ายงวด';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="instalment-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <div class="well">
+    <div class="instalment-index box box-success">
+    <div class="box-body">
     <p>
         <?= Html::a('สร้างงวดจ่ายเงิน', ['create'], ['class' => 'btn btn-success btn-raised']) ?>
     </p>
@@ -72,6 +72,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>    
-
+    </div>
     </div>
 </div>

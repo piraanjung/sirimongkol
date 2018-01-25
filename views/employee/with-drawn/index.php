@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
     font-weight:bold
 }
 </style>
-<div class="well">
+<div class="box box-success">
+<div class="box-body">
 <?php if(count($models) >0){ ?>
 <?php $form = ActiveForm::begin(['action' => ['employee/with-drawn/create'],'options' => ['method' => 'post']]) ?>
     <p>
@@ -233,6 +234,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php }else{//if?>
         <h2 style='text-align:center'>ไม่พบข้อมูล</h2>
     <?php } ?>
+    </div>
 </div>
 <?php
 // Form::print_array($models);

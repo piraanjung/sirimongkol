@@ -9,6 +9,7 @@ class WithDrawnController extends \yii\web\Controller
 {
     public function actionIndex($instalment_id)
     {
+        $this->layout = "employee_layout";
         $query = new Query;
         // compose the query
         $query->select('*')
@@ -25,6 +26,7 @@ class WithDrawnController extends \yii\web\Controller
     }
 
     public function actionCreate(){
+        $this->layout = "employee_layout";
         if(count(Yii::$app->request->post()) >0){
             // \app\models\Form::print_array($_REQUEST['paidmethod']);
             foreach($_REQUEST['paidmethod'] as  $key => $pm ){

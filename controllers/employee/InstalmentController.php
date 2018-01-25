@@ -130,6 +130,7 @@ class InstalmentController extends Controller
     }
 
     public function actionInstalment_by_instructor(){
+
         $this->layout = "employee_layout";
         $model = new \app\models\Instalmentcostdetails ;
         if(isset($_REQUEST['instalment_id'])){
@@ -157,18 +158,20 @@ class InstalmentController extends Controller
 
                 unset($_SESSION['laborcostlist']);
                 $session->setFlash('save_res', 'ทำการบันทึกข้อมูลเรียบร้อยแล้ว');  
-                $instalment = Instalment::find()
-                        ->where(['id' => $inst])->one();   
+                // $instalment = Instalment::find()
+                //         ->where(['id' => $inst])->one();   
 
-                return $this->render('instalment-by-instructor',[
-                    'model' => new \app\models\Instalmentcostdetails,
-                    'addlist' =>[],
-                    'instalment' => $instalment
-                ]);
+                //return $this->render('index',[
+                    // 'model' => new \app\models\Instalmentcostdetails,
+                    // 'addlist' =>[],
+                    // 'instalment' => $instalment
+                //]);
+                return $this->redirect('index.php?r=employee/instalment/index');
             }
         }else{
         
         }
+        // \app\models\Methods::print_array($_SESSION['laborcostlist']);
         return $this->render('instalment-by-instructor',[
             'model' => $model,
             'addlist' => $_SESSION['laborcostlist'],
@@ -223,9 +226,14 @@ class InstalmentController extends Controller
     }
 
     public function actionUnsetArray($id){
-         $session = Yii::$app->session;
-         unset($_SESSION['laborcostlist'][$id]);
-         return $this->redirect(['instalment/instalment_by_instructor']);
+        $session = Yii::$app->session;
+        unset($_SESSION['laborcostlist'][$id]);
+        array_splice($_SESSION['laborcostlist'], 0, 0);
+
+        return $this->redirect([
+            'employee/instalment/instalment_by_instructor',
+            'instalment_id' => $_REQUEST['instalment_id']
+        ]);
      }
     /**
      * Finds the Instalment model based on its primary key value.
@@ -253,8 +261,8 @@ class InstalmentController extends Controller
             $model->house_id           = $req['Instalmentcostdetails']['house_id'];
             $model->workclassify_id    = $req['Instalmentcostdetails']['workclassify_id'];
             $model->worktype_id        = $req['Laborcostdetails']['workgroup'];
+            $model->work_id            = $req['Laborcostdetails']['works'];
             $model->money_type_id      = $req['Instalmentcostdetails']['money_type_id'];
-            // $model->ceiling_money      = 0;//$req['Instalmentcostdetails']['ceiling_money'];
             $model->amount             = $req['Instalmentcostdetails']['amount'];
             $model->summoney_id        = 0;
             $model->saver_id           = Yii::$app->user->identity->id;
@@ -263,7 +271,7 @@ class InstalmentController extends Controller
             $model->update_date        = date('y-m-d H:i:s');
             $model->save();
         }
-        $summoney = $this->sumAmountByIstalment();
+        // $summoney = $this->sumAmountByIstalment();
         return $lists[0]['Instalmentcostdetails']['instalment_id'];
        
     }
