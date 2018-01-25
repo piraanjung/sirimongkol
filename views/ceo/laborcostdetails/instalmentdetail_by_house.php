@@ -11,52 +11,38 @@ use yii\db\Query;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'สรุปการจ่ายค่าแรง แปลงที่'.$instalment[0]['house_id'].
-                " งวดที่ ".$instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'];
+                " งวดที่ ".$instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'].
+                ".".$instalment[0]['instalment_year'];
 $this->params['breadcrumbs'][] = ['label' => 'ข้อมูลรายแปลง', 'url' => ['/ceo/laborcostdetails/index',
                                     'project_id'=>$instalment[0]['project_id'], 'instalment'=>$instalment[0]['instalment']]]; 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<br>
 
-<style>
-    thead th{
-        text-align:center;
-    }
-    .header{
-        background-color:#358DC4;
-        color:#ffffff;
-    }
-    td{
-        text-align:center
-    }
-    .row_sum_by_wc{
-        background-color:#43B2F7;
-        font-weight:bold;
-        color:#ffffff;
-    }
-    .number_format_td{
-        text-align:right
-    }
-</style>
-<div class="well">
+<div class="box box-succss">
+<div class='box-body'>
     <h2><?=$this->title;?></h2>
     <table class ="table table-bordered">
         <thead>										
             <tr class="header">
-                <th colspan="3">โครงการ สิริมงคล 6</th>
+                <th colspan="3">โครงการ <?=$instalment[0]['projectname'];?></th>
                 <th colspan="3">สรุปการจ่ายค่าแรง</th>
 
-                <th colspan="3">ประจำเดือน พ.ย 60</th>
+                <th colspan="3">ประจำเดือน 
+                <?= \app\models\Methods::getMonth($instalment[0]['instalment_monthly'])." ".$instalment[0]['instalment_year'];?>
+                </th>
             </tr>
             <tr class="header">
                 <th>งวดที่ 
                     <?php
-                        echo $instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'];
+                        echo $instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'].
+                            ".".$instalment[0]['instalment_year'];
                     ?>
                 </th>
-                <th colspan="2">แบบบ้าน <?=$instalment[0]['house_model_name'];?></th>
+                <th colspan="2">แบบบ้าน <?=$instalment[0]['hm_name'];?></th>
                 
                 <th colspan="3">การจ่ายเงิน</th>
-                <th colspan="2">แปลง <?=$instalment[0]['house_id'];?></th>
+                <th colspan="2">แปลง <?=$instalment[0]['hm_name'];?></th>
                 <th>ยอดสะสมถึงงวด</th>
             </tr>
             <tr class="header">
@@ -95,8 +81,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php } //if $curr_wc_name != $ins['wc_name']?>
                 <tr>
                     <td><?=$ins['wc_name'];?></td>
-                    <td><?=$ins['work_type_name'];?></td>
-                    <td class="number_format_td"><?=number_format($ins['ceiling_money'],2);?></td>
+                    <td><?=$ins['work_name'];?></td>
+                    <td class="number_format_td"><?=number_format($ins['work_control_statement'],2);?></td>
                     <td><?=$ins['instalment_monthly']."/".$ins['instalment'].".".$ins['instalment_year'];?></td>	
                     <td class="number_format_td"><?=number_format($ins['amount'],2);?></td>
                     <td><?=$ins['moneytype'];?></td>
@@ -104,10 +90,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=$ins['comment'];?></td>
                     <td class="number_format_td"><?=number_format($ins['amount'],2);?></td>
                     <?php
-                        $sum_ceiling_budget_by_workclassify += $ins['ceiling_money'];
+                        $sum_ceiling_budget_by_workclassify += $ins['work_control_statement'];
                         $sum_amount_by_workclassify += $ins['amount'];
                         $total_amount += $ins['amount'];
-                        $total_ceiling += $ins['ceiling_money'];
+                        $total_ceiling += $ins['work_control_statement'];
                     ?>
                 </tr>
 
@@ -140,3 +126,4 @@ $this->params['breadcrumbs'][] = $this->title;
     </table> 	
     <!-- <\app\models\Form::print_array($instalment);?> -->
 </div>    
+</div>

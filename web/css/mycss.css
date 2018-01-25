@@ -34,10 +34,10 @@
 }
 
 .content {
-    height: 180px;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-    border: 1px solid #FFFFFF !important;
+    /* height: 180px; */
+    /* padding-left: 0px !important;
+    padding-right: 0px !important; */
+    /* border: 1px solid #FFFFFF !important; */
 }
 
 ._content {
@@ -82,3 +82,22 @@
 ._number{
     text-align: right
 }
+
+
+    thead th{
+        text-align:center;
+    }
+    .header{
+        background-color:#3379b7;
+        color:#ffffff;
+    }
+    td{
+        text-align:center
+    }
+    .row_sum_by_wc{
+        background-color:#d2d6de;
+        font-weight:bold;
+    }
+    .number_format_td{
+        text-align:right
+    }

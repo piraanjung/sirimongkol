@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?=$model[0]['monthly']."/".$model[0]['instalment_id'].".".$model[0]['year'];?> 
             </h2>
             
-           
+        <!-- < \app\models\Methods::print_array($provider->getModels());?> -->
             <?= GridView::widget([
         'dataProvider' => $provider,
         'columns' => [
@@ -32,15 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'เลขที่บ้าน',
                 'headerOptions' =>  ['style' => 'text-align:center'],
                 'value' => function($model){
-                    return $model['house_id'];
+                    return $model['house_name'];
                 }
             ],
             [
-                'attribute' =>'house_model_name',
+                'attribute' =>'house_model_id',
                 'header' => 'แบบบ้าน',
                 'headerOptions' =>  ['style' => 'text-align:center'],
                 'value' => function($model){
-                    return $model['house_model_name'];
+                    return $model['hm_name'];
                 }
             ],
             [
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' =>  ['style' => 'text-align:center'],
                 'contentOptions' =>['style' => 'text-align:right'],
                 'value' => function($model){
-                    return  number_format($model['control_statement'],2);
+                    return  number_format($model['hm_control_statment'],2);
                 }
             ],
             [
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $query = new Query;
                     $paid = $query->select('sum(amount) as _sum')
                         ->from('instalmentcostdetails')
-                        ->where(['house_id' => $model['house_id']])
+                        ->where(['house_id' => $model['house_name']])
                         ->groupby('house_id')
                         ->one();
 
@@ -92,11 +92,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     $query = new Query;
                     $paid = $query->select('sum(amount) as _sum')
                         ->from('instalmentcostdetails')
-                        ->where(['house_id' => $model['house_id']])
+                        ->where(['house_id' => $model['house_name']])
                         ->groupby('house_id')
                         ->one();
 
-                    return $paid['_sum'] >0 ? number_format((100*$paid['_sum'])/$model['control_statement'],2) : 0;
+                    return $paid['_sum'] >0 ? number_format((100*$paid['_sum'])/$model['hm_control_statment'],2) : 0;
                 }
             ],
             [
@@ -106,10 +106,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     $query = new Query();
                     $paid = $query->select('sum(amount) as _sum')
                         ->from('instalmentcostdetails')
-                        ->where(['house_id' => $model['house_id']])
+                        ->where(['house_id' => $model['house_name']])
                         ->groupby('house_id')
                         ->one();
-                    $sumpaid = number_format((100*$paid['_sum'])/$model['control_statement'],2);
+                    $sumpaid = number_format((100*$paid['_sum'])/$model['hm_control_statment'],2);
                     if($sumpaid >100){
                         $txt ="เกินงบ";
                     }else if($sumpaid <100 && $sumpaid>0){
@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' =>[
                     'info'=>function($url, $model) use ($instalment){
                         return Html::a('รายละเอียด', ['/ceo/laborcostdetails/instalmentdetail_by_house', 'instalment_id' => $instalment, 
-                        'house_id' => $model['house_id'],  'project_id'=>$model['project_id']],
+                        'house_id' => $model['house_name'],  'project_id'=>$model['project_id']],
                             ['class'=> 'btn btn-raised btn-block  btn-success']);
                     },
                    

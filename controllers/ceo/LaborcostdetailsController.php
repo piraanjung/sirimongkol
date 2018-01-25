@@ -64,7 +64,7 @@ class LaborcostdetailsController extends Controller
 
 
         $query3 = new Query();
-        $command = $query3->select(['h.*', 'hm.hm_name'])
+        $command = $query3->select(['h.*', 'hm.hm_name', 'hm.hm_control_statment'])
             ->from('houses h')
             ->leftJoin('house_model hm', ' h.house_model_id = hm.id')
             
@@ -92,27 +92,31 @@ class LaborcostdetailsController extends Controller
         $this->layout = 'ceo';
         $query = new Query;
         $query->select('a.*, 
-                b.name as constructorname ,
+                b.username as constructorname ,
                 c.wc_name,
-                d.work_type_name,
+                d.wg_name,
                 e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
                 f.name as moneytype,
-                g.house_id, g.project_id,
-                h.house_model_name
+                g.id, g.project_id,
+                h.hm_name, h.id,
+                i.work_name, i.work_control_statement,
+                j.projectname
             ')
             ->from('instalmentcostdetails a')
-            ->leftJoin('payee b', 'a.contructor_id = b.id')
-            ->leftJoin('work_classify c', 'a.workclassify_id = c.id ')
-            ->leftJoin('work_type d', 'a.worktype_id = d.id')
+            ->leftJoin('user b', 'a.contructor_id = b.id')
+            ->leftJoin('work_category c', 'a.workclassify_id = c.id ')
+            ->leftJoin('work_group d', 'a.worktype_id = d.id')
+            ->leftJoin('works i', 'a.work_id = i.id')
             ->leftJoin('instalment e', 'a.instalment_id = e.id')
             ->leftJoin('money_type f', 'a.money_type_id = f.id')
-            ->leftJoin('houses g', 'a.house_id = g.house_id')
-            ->leftJoin('housemodels h', 'g.house_model = h.id')
+            ->leftJoin('houses g', 'a.house_id = g.id')
+            ->leftJoin('house_model h', 'g.house_model_id = h.id')
+            ->leftJoin('project j', 'e.project_id = j.project_id')
             ->where(['a.house_id' => $_REQUEST['house_id']])
             ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
             ;
         $instalment = $query->all();    
-
+// \app\models\Methods::print_array($instalment);
         return $this->render('instalmentdetail_by_house',[
             'instalment' => $instalment,
         ]);
