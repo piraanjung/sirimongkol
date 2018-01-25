@@ -40,8 +40,8 @@ class WorkGroup extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'wg_name' => 'Wg Name',
-            'wc_id' => 'Wc ID',
+            'wg_name' => 'ชื่อกลุ่มงาน',
+            'wc_id' => 'ชื่อหมวดงาน',
         ];
     }
 }

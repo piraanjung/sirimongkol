@@ -1605,6 +1605,7 @@ a:focus {
  * --------------
  */
 .box {
+  padding: 20px;
   position: relative;
   border-radius: 3px;
   background: #ffffff;

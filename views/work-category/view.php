@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\WorkCategory */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Work Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'หมวดงาน', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="work-category-view">

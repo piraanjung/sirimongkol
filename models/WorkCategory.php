@@ -38,7 +38,7 @@ class WorkCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'wc_name' => 'Wc Name',
+            'wc_name' => 'ชื่อหมวดงาน',
         ];
     }
 }
