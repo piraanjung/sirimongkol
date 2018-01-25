@@ -1,13 +1,15 @@
 <?php
 use yii\helpers\Html;
 use scotthuangzl\googlechart\GoogleChart;
-use app\modules\models\Houses;
+use app\models\Houses;
 /* @var $this yii\web\View */
 
-$this->title = '';
+$this->title = 'ความคืบหน้าโครงการ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="well">
+<br>
+<div class="box box-success">
+<div class="box-body">
     <h2>ความคืบหน้าโครงการ</h2>
     <?php foreach ($boxs as $box) {?>
     <table class="table dashboard" border="1" style="background-color: #3F51aa; color:#ffffff">
@@ -15,18 +17,20 @@ $this->params['breadcrumbs'][] = $this->title;
             <td rowspan="2">
                 <h1 class="text-center"><?=$box['projectname'];?></h1> 
                 <center>
-                <?= Html::a('รายละเอียด', ['site/projectdetail', 'project_id' => $box['project_id']]
-                    ,['class'=>'btn labor_btn btn-raised'])?>
+                <!-- <Html::a('รายละเอียด', ['site/projectdetail', 'project_id' => $box['project_id']]
+                    ,['class'=>'btn labor_btn btn-info'])?> -->
+                <?= Html::a('รายละเอียด', ['ceo/ceo/projectdetail', 'project_id' => $box['project_id']]
+                    ,['class'=>'btn labor_btn btn-info'])?>
                 </center> 
             </td>
             <td>จำนวนบ้าน
                 <h3 class="text-center"><?=$box['unit_count']?> หลัง</h3>
             </td>
             <td>งบก่อสร้าง
-                <h3 class="text-center"><?= number_format($box['values']) ?> บาท</h3>
+                <h3 class="text-center"><?= number_format($box['control_statement']) ?> บาท</h3>
             </td>
             <td>ระยะเวลาการก่อสร้าง
-                <h3 class="text-center">1 มค. 2560 <br>-<br> 20 ธค. 2560</h3>
+                <h3 class="text-center"><?=$box['start_date'];?> <br>-<br> <?=$box['end_date'];?></h3>
             </td>
         </tr>
         <tr>
@@ -37,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="text-center">กำลังก่อสร้าง 
                 <?=$duringBuildedHouses = Houses::countHousesByStatus(1, $box['project_id']);?>
                 หลัง</h4>
-                <h4 class="text-center">ยังไม้ดำเนินการ 
+                <h4 class="text-center">ยังไม่ดำเนินการ 
                 <?=$noneBuildedHouses = Houses::countHousesByStatus(0, $box['project_id']);?>
             
                 หลัง</h4>
@@ -52,10 +56,11 @@ $this->params['breadcrumbs'][] = $this->title;
             </td>
             <td>จ่ายแล้ว:งบก่อสร้างคิดเป็น
                 <h3 class="text-center">
-                <?=number_format(($sumPaidAmountByProject*100)/$box['values'],2);?>
+                <?=number_format(($sumPaidAmountByProject*100)/$box['control_statement'],2);?>
                 %</h3>
             </td>
         </tr>
     </table>
     <?php } ?>
+</div>
 </div>

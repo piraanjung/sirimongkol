@@ -1,0 +1,84 @@
+.labor_header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.form-info {
+    /*padding-left: 30px*/
+}
+
+.labor_btn {
+    background-color: #3f51b5 !important;
+    color: #FFFFFF !important;
+    padding: 8px 30px !important;
+    /*color:#FFFFFF !important;*/
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.btn.btn-xs {
+    padding: 4px 8px !important;
+}
+
+
+/* ceo modules */
+
+.box-detail {
+    background-color: #39C5CC;
+}
+
+.col-md-3 {
+    /* border: 1px solid #FFFFFF !important; */
+    /* padding-left: 0px !important;
+    padding-right: 0px !important; */
+}
+
+.content {
+    height: 180px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    border: 1px solid #FFFFFF !important;
+}
+
+._content {
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    padding: 10px
+}
+
+._header {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px
+}
+
+.small-text {
+    font-size: 16px !important;
+    font-weight: normal;
+}
+
+.big-text {
+    font-size: 24px !important;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px
+}
+
+.project-number {
+    font-size: 66px !important;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center
+}
+
+.project {
+    padding: 40px
+}
+
+._number{
+    text-align: right
+}

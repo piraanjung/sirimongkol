@@ -12,7 +12,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\WorkType;
 use app\models\Housemodels;
-use app\modules\models\Houses;
+use app\models\Houses;
 
 
 class CeoController extends \yii\web\Controller
@@ -63,11 +63,10 @@ class CeoController extends \yii\web\Controller
         $this->layout = "ceo";
 
         $sql_one = 'select a.project_id,
-        a.projectname,
-        a.control_statement,
-        count(b.project_id) as unit_count
+        a.projectname, a.start_date, a.end_date,a.control_statement,
+        count(b.id) as unit_count
         from project a
-        left join houses b on a.project_id = b.project_id
+        left join houses b on a.id = b.project_id
         group by a.projectname,a.control_statement,b.project_id;';
         $data_one = Yii::$app->db->createCommand($sql_one)->queryAll();
         // \app\models\Methods::print_array($data_one);
@@ -93,9 +92,9 @@ class CeoController extends \yii\web\Controller
         $data_payee = Yii::$app->db->createCommand($sql_payee)->queryAll();
         
         $arr_payee = [];
-        array_push($arr_payee, ['name','paid']);
+        array_push($arr_payee, ['username','paid']);
         foreach ($data_payee as $row){
-            $d1 = [$row['name'], (int)$row['paid']];
+            $d1 = [$row['username'], (int)$row['paid']];
             array_push($arr_payee, $d1);
         }
         
@@ -104,13 +103,16 @@ class CeoController extends \yii\web\Controller
         //             left join form b on a.project_id = b.project_id
         //             left join laborcostdetails c on b.id = c.ref_id
         //             group by a.projectname;';
-        $sql_grid = 'select a.projectname,ifnull(sum(c.ceiling_money),0)as fixpaid,
-                    ifnull(sum(c.paid_amount),0)as paid from project a
-                    left join form b on a.project_id = b.project_id
-                    left join laborcostdetails c on b.id = c.ref_id
+        $sql_grid = 'select a.projectname,
+                    ifnull(sum(d.work_control_statement),0)as fixpaid,
+                    ifnull(sum(c.amount),0)as paid 
+                    from project a
+                    left join instalment b on a.project_id = b.project_id
+                    left join instalmentcostdetails c on b.id = c.instalment_id
+                    left join works d on c.work_id = d.id
                     group by a.projectname;';
         $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
-        \app\models\Methods::print_array($data_grid);
+        // \app\models\Methods::print_array($data_grid);
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $data_grid
         ]);
@@ -123,74 +125,19 @@ class CeoController extends \yii\web\Controller
         ]);
     }
 
-    /**
-     * Login action.
-     *
-     * @return string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return string
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 
     public function actionProjectdetail($project_id){
         $this->layout = 'ceo';
         $query = new Query();
-        $command = $query->select(['h.*', 'hm.house_model_name'])
+        $command = $query->select(['h.*', 'hm.hm_name','hm.hm_control_statment'])
             ->from('houses h')
-            ->leftJoin('housemodels hm', 'hm.id = h.house_model')
+            ->leftJoin('house_model hm', ' h.house_model_id = hm.id')
             ->all();
-            
+        $project = \app\models\Project::find()
+                ->where(['project_id' => $project_id])
+                ->one();    
+                
         $provider = new ArrayDataProvider([
             'allModels' =>$command,
             // 'sort' => [
@@ -200,8 +147,7 @@ class CeoController extends \yii\web\Controller
                 'pageSize' => 10,
             ],
         ]);
-
-
+        
         $query = new Query;
         $query->select('a.*, b.*')
             ->from('instalmentcostdetails a')
@@ -209,7 +155,7 @@ class CeoController extends \yii\web\Controller
             ->where(['b.project_id' => $_REQUEST['project_id']])
             ->groupBy('a.instalment_id');
         $model = $query->all();
-        // \app\models\Form::print_array($model);
+        // \app\models\Methods::print_array($model);
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $model,
                 'pagination' => [
@@ -222,7 +168,7 @@ class CeoController extends \yii\web\Controller
         $noneBuildedHouses = Houses::countHousesByStatus(0, $project_id);
         $duringBuildedHouses = Houses::countHousesByStatus(1,$project_id);
         $completeBuildedHoueses  = Houses::countHousesByStatus(2, $project_id);
-        $sumControlStatement = Houses::sumControllStatement();
+        // $sumControlStatement = Houses::sumControllStatement();
         $sumPaidAmountByProject = Houses::sumPaidAmountByProject($project_id);
         // \app\models\Form::print_array($houseCount);
         return $this->render('projectdetail', [
@@ -230,10 +176,11 @@ class CeoController extends \yii\web\Controller
             'noneBuildedHouses' => $noneBuildedHouses,
             'duringBuildedHouses' => $duringBuildedHouses,
             'completeBuildedHoueses' => $completeBuildedHoueses,
-            'sumControlStatement' => $sumControlStatement,
+            // 'sumControlStatement' => $sumControlStatement,
             'sumPaidAmountByProject' => $sumPaidAmountByProject,
             'provider' => $provider,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'project' => $project
         ]);
     }
 }
