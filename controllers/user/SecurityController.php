@@ -28,10 +28,10 @@ class SecurityController extends BaseSecurityController
             if($model['user']['user_type_id'] == 1){
                 //admin
                 return $this->redirect(['/user/admin/dashboard']);
-            }else if($model['user']['user_type_id'] ==2){
+            }else if($model['user']['user_type_id'] ==3){
                 //employee
                 return $this->redirect(['/employee/instalment/index']);
-            }else if($model['user']['user_type_id']==3){
+            }else if($model['user']['user_type_id']==2){
                 //ceo
                 return $this->redirect(['/ceo/ceo/index']);
             }

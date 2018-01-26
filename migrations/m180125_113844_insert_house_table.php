@@ -30,7 +30,7 @@ class m180125_113844_insert_house_table extends Migration
     public function up()
     {
         $this->insert('houses',[
-            'house_name' => '1',
+            'house_name' => '85 A',
             'house_model_id' => 1,
             'project_id' => 6,
             'house_status' => 0,
@@ -40,7 +40,7 @@ class m180125_113844_insert_house_table extends Migration
         ]);
 
         $this->insert('houses',[
-            'house_name' => '2',
+            'house_name' => '101 A',
             'house_model_id' => 1,
             'project_id' => 6,
             'house_status' => 0,
@@ -50,8 +50,8 @@ class m180125_113844_insert_house_table extends Migration
         ]);
 
         $this->insert('houses',[
-            'house_name' => '3',
-            'house_model_id' => 2,
+            'house_name' => '103 A',
+            'house_model_id' => 1,
             'project_id' => 6,
             'house_status' => 0,
             'create_date' => date('Y-m-d'),
@@ -59,8 +59,8 @@ class m180125_113844_insert_house_table extends Migration
 
         ]);
         $this->insert('houses',[
-            'house_name' => '4',
-            'house_model_id' => 2,
+            'house_name' => '104 A',
+            'house_model_id' => 1,
             'project_id' => 6,
             'house_status' => 0,
             'create_date' => date('Y-m-d'),
@@ -68,8 +68,8 @@ class m180125_113844_insert_house_table extends Migration
 
         ]);
         $this->insert('houses',[
-            'house_name' => '5',
-            'house_model_id' => 2,
+            'house_name' => '89 A',
+            'house_model_id' => 1,
             'project_id' => 6,
             'house_status' => 0,
             'create_date' => date('Y-m-d'),

@@ -34,7 +34,7 @@ if(Yii::$app->session->hasFlash('alert')){
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'id',
+                //'id',
                 'house_name',
                 [ 
                     'attribute' => 'house_model_id',
@@ -47,7 +47,7 @@ if(Yii::$app->session->hasFlash('alert')){
                 [
                     'attribute' => 'project_id',  
                     'value'     => function($model){
-                     $project = app\models\Project::find()->where(['id' => $model['project_id']])->one();
+                     $project = app\models\Project::find()->where(['project_id' => $model['project_id']])->one();
                      return $project['projectname'];   
                     }   
                 ],
@@ -55,14 +55,12 @@ if(Yii::$app->session->hasFlash('alert')){
                 [
                     'attribute' => 'house_status',
                     'value'     => function($model){
-                        $hs = app\models\Houses::find()->where(['id' => $model['house_status']])->one();
-                     return $hs['house_status'];   
+                        $hs = app\models\Houses::find()->where(['house_status' => $model['house_status']])->one();
+                        return \app\models\Methods::house_status($hs['house_status']);   
                     }
                 ],
                 
-                // 'house_status',
-                //'create_date',
-                //'update_date',
+                
 
                 ['class' => 'yii\grid\ActionColumn'],
             ],

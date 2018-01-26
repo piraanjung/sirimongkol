@@ -48,18 +48,18 @@ class AdminController extends BaseAdminController
             $user->auth_key = '1234';
             $user->created_at = strtotime(date('Y m d'));
             $user->updated_at = strtotime(date('Y m d'));
-            $user->user_type_id = 4;//
-            $_REQUEST['User']['user_type_id'];
+            $user->user_type_id = $_REQUEST['User']['user_type_id'];
             if($user->save()){
                 \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'User has been created'));
                 $this->trigger(self::EVENT_AFTER_CREATE, $event);
+                return $this->redirect(['update', 'id' => $user->id]);
             }else{
                 \Yii::$app->getSession()->setFlash('warning', \Yii::t('user', 'User has not been created'));
                 $this->trigger(self::EVENT_AFTER_CREATE, $event);
             }
 
             
-            return $this->redirect(['update', 'id' => $user->id]);
+            
         }
         // \app\models\Methods::print_array($_REQUEST);
         return $this->render('create', [

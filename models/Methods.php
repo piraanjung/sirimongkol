@@ -47,6 +47,21 @@ class Methods extends Model
         return $months[$index];
     }
 
+    public function house_status($house_status){
+        $status_str ="";
+        switch($house_status){
+            case 0 :
+                $status_str = "ยังไม่ก่อสร้าง";
+                break;
+            case 1 :
+                $status_str = "กำลังก่อสร้าง";
+                break;
+            default:
+                $status_str = "สร้างเสร็จแล้ว";
+        }
+        return $status_str;
+    }
+
 }
 
 ?>
