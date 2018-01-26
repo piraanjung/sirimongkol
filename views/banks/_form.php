@@ -12,21 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name[]')->dropDownList( 
-        ['prompt'=>'เลือกธนาคาร...',
-        'ธนาคารกรุงเทพ' => 'ธนาคารกรุงเทพ',
-        'ธนาคารกสิกรไทย' => 'ธนาคารกสิกรไทย',
-        'ธนาคารกรุงไทย' => 'ธนาคารกรุงไทย',
-        'ธนาคารทหารไทย' => 'ธนาคารทหารไทย',
-        'ธนาคารไทยพาณิชย์' => 'ธนาคารไทยพาณิชย์',
-        'ธนาคารกรุงศรีอยุธยา' => 'ธนาคารกรุงศรีอยุธยา',
-        'ธนาคารออมสิน' => 'ธนาคารออมสิน',
-        'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร' => 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร']);?>
-
-    <!-- <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?> -->
-
-    <?= $form->field($model, 'brance')->textInput(['maxlength' => true]) ?>
-
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <?= $form->field($model, 'brance')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+    
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>

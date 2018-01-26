@@ -12,6 +12,7 @@ class User extends BaseUser
         $scenarios['create'][]   = 'user_type_id';
         $scenarios['update'][]   = 'user_type_id';
         $scenarios['register'][] = 'user_type_id';
+
         return $scenarios;
     }
 
@@ -21,7 +22,7 @@ class User extends BaseUser
         // add some rules
         $rules['user_type_idRequired'] = ['user_type_id', 'required'];
         $rules['user_type_idLength']   = ['user_type_id', 'integer'];
-        
+
         return $rules;
     }
 

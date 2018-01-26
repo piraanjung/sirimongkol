@@ -185,13 +185,16 @@ AppAsset::register($this);
           </span>
         </a>
         <ul class="treeview-menu">
-           <li>
-        <?= Html::a('<i class="fa fa-circle-o"></i>จัดการผู้ใช้ระบบ', ['/user/admin/index']) ?>
-        </li>
-        <li>
-        <?= Html::a('<i class="fa fa-circle-o"></i> ลงทะเบียนผู้ใช้ระบบ', 
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>จัดการผู้ใช้ระบบ', ['/user/admin/index']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>เพิ่มผู้ใช้ระบบ', ['/user/admin/create']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i> ลงทะเบียนผู้ใช้ระบบ', 
               ['/user/registration/register']) ?>
-        </li>
+          </li>
         </ul>
       </li>
       

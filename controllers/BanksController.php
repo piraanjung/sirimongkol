@@ -53,6 +53,7 @@ class BanksController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = 'admin';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -86,6 +87,7 @@ class BanksController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = 'admin';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

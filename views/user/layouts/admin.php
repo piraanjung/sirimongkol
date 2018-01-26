@@ -164,13 +164,35 @@ AppAsset::register($this);
           </span>
         </a>
         <ul class="treeview-menu">
-           <li>
-        <?= Html::a('<i class="fa fa-circle-o"></i>จัดการผู้ใช้ระบบ', ['/user/admin/index']) ?>
-        </li>
-        <li>
-        <?= Html::a('<i class="fa fa-circle-o"></i> ลงทะเบียนผู้ใช้ระบบ', 
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>จัดการผู้ใช้ระบบ', ['/user/admin/index']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>เพิ่มผู้ใช้ระบบ', ['/user/admin/create']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i> ลงทะเบียนผู้ใช้ระบบ', 
               ['/user/registration/register']) ?>
-        </li>
+          </li>
+        </ul>
+      </li>
+
+      <li class="active treeview menu-open">
+        <a href="#">
+          <i class="fa fa-laptop"></i>
+          <span>ข้อมูลผู้ใช้งานระบบ</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>รายการธนาคาร', ['/banks/index']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>บัญชีธนาคารผู้ใช้ระบบ', ['/user-bookbank-info/index']) ?>
+          </li>
+      
         </ul>
       </li>
       
@@ -216,16 +238,3 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
-<script>
-    var a =0;
-    $('.dropdown-toggle').click(function(){
-        if(a ==0){
-            $('.user-menu').attr('class', 'dropdown user user-menu open');
-            a=1;
-        }else{
-            $('.user-menu').attr('class', 'dropdown user user-menu');
-            a=0; 
-        }
-        
-    })
-</script>

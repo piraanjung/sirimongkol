@@ -101,3 +101,7 @@
     .number_format_td{
         text-align:right
     }
+
+    .clearboth{
+        clear: both
+    }
