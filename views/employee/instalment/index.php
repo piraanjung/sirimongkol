@@ -30,13 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'instalment',
             'monthly',
             'year',
-            'project_id',
+            [
+                'attribute' =>'project_id',
+                'value' => function($model){
+                    $project = \app\models\Project::find()->select('projectname')
+                        ->where(['project_id' => $model->project_id])->one();
+                    return $project['projectname'];
+                }
+            ],
             [
                 'attribute' =>'editor_id',
                 'value'     => function($model){
-                    $user = \app\models\User::find()
-                                ->where(['user.id' => $model->editor_id])->one();
-                    return $user['username'];
+                    $user = \app\models\Profile::find()
+                                ->where(['user_id' => $model->editor_id])->one();
+                    return $user['name'];
                 }
             ],
             // 'create_date',
@@ -45,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{add_item} {paid_by} {details}',
-                'width' => '35%',
+                'width' => '40%',
                 'header' => '',
                 'buttons'=>[
 

@@ -77,7 +77,7 @@ class InstalmentController extends Controller
             $model->instalment  = "".$_REQUEST['Instalment']['instalment'];
             $model->monthly     = $_REQUEST['Instalment']['monthly'];
             $model->year        = substr($_REQUEST['Instalment']['year'],2);
-            $model->project_id  = "SM-06";
+            $model->project_id  = $_REQUEST['Instalment']['project_id'];
             $model->editor_id   = isset(Yii::$app->user->identity->id) ? "".Yii::$app->user->identity->id :"0";
             $model->create_date = date("Y-m-d H:i:s");
             $model->update_date = date("Y-m-d H:i:s");
@@ -136,7 +136,6 @@ class InstalmentController extends Controller
         if(isset($_REQUEST['instalment_id'])){
             $instalment = Instalment::find()
                         ->where(['id' => $_REQUEST['instalment_id']])->one();
-            // $model->instalment_id = $instalment['instalment'];
         }
 
         $session = Yii::$app->session;
@@ -148,30 +147,19 @@ class InstalmentController extends Controller
         if ($model->load(Yii::$app->request->post()) || isset($_REQUEST['hidden'])) {
             if($_REQUEST['hidden'] =="addlists"){
                 array_push( $_SESSION['laborcostlist'], Yii::$app->request->post());
+                $_REQUEST['hidden'] = "";
             }else if($_REQUEST['hidden'] =="savelists"){
-                // \app\models\Methods::print_array($_SESSION['laborcostlist']);
                 //ทำการบันทึกข้อมูลการจ่ายงวดรายช่าง
                 $inst =  $this->saveInstalmentDetails($_SESSION['laborcostlist']);
-                // บันทึกผลรวมเงินของช่างแต่ละคนใน summoney table
-                //และทำการupdate summoney_id ใน instalmentcostdetails table
-                //$this->sumAmountByIstalment();
-
+                
                 unset($_SESSION['laborcostlist']);
                 $session->setFlash('save_res', 'ทำการบันทึกข้อมูลเรียบร้อยแล้ว');  
-                // $instalment = Instalment::find()
-                //         ->where(['id' => $inst])->one();   
-
-                //return $this->render('index',[
-                    // 'model' => new \app\models\Instalmentcostdetails,
-                    // 'addlist' =>[],
-                    // 'instalment' => $instalment
-                //]);
+               
+                $_REQUEST['hidden'] = "";
                 return $this->redirect('index.php?r=employee/instalment/index');
             }
-        }else{
-        
         }
-        // 
+        // \app\models\Methods::print_array($_SESSION['laborcostlist']); 
         return $this->render('instalment-by-instructor',[
             'model' => $model,
             'addlist' => $_SESSION['laborcostlist'],
