@@ -12,7 +12,7 @@ class m180122_063233_add_comment_column_to_instalmentcostdetails_table extends M
      */
     public function up()
     {
-        $this->addColumn('instalmentcostdetails', 'comment', $this->text());
+        $this->addColumn('instalmentcostdetails', 'comment', $this->text()->after('saver_id'));
     }
 
     /**
@@ -20,6 +20,6 @@ class m180122_063233_add_comment_column_to_instalmentcostdetails_table extends M
      */
     public function down()
     {
-        $this->dropTable('instalmentcostdetails');
+        $this->dropColumn('{{%instalmentcostdetails}}', 'comment');
     }
 }

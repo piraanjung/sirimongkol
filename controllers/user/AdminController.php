@@ -60,8 +60,6 @@ class AdminController extends BaseAdminController
 
             
             return $this->redirect(['update', 'id' => $user->id]);
-        }else{
-            echo "no save";
         }
         // \app\models\Methods::print_array($_REQUEST);
         return $this->render('create', [
@@ -100,6 +98,7 @@ class AdminController extends BaseAdminController
      */
     public function actionUpdateProfile($id)
     {
+        $this->layout = 'admin';
         Url::remember('', 'actions-redirect');
         $user    = $this->findModel($id);
         $profile = $user->profile;
@@ -113,8 +112,10 @@ class AdminController extends BaseAdminController
         $this->performAjaxValidation($profile);
 
         $this->trigger(self::EVENT_BEFORE_PROFILE_UPDATE, $event);
-
+        // \app\models\Methods::print_array($_REQUEST);
         if ($profile->load(\Yii::$app->request->post()) && $profile->save()) {
+            $profile->phone = $_REQUEST['Profile']['phone'];
+            $profile->save();
             \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Profile details have been updated'));
             $this->trigger(self::EVENT_AFTER_PROFILE_UPDATE, $event);
             return $this->refresh();
@@ -135,6 +136,7 @@ class AdminController extends BaseAdminController
      */
     public function actionInfo($id)
     {
+        $this->layout = 'admin';
         Url::remember('', 'actions-redirect');
         $user = $this->findModel($id);
 

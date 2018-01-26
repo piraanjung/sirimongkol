@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user'),]) ?>
 
 <?= $this->render('_menu') ?>
-dd
+
 <div class="row">
     <div class="col-md-3">
         <div class="panel panel-default">
