@@ -48,7 +48,8 @@ class AdminController extends BaseAdminController
             $user->auth_key = '1234';
             $user->created_at = strtotime(date('Y m d'));
             $user->updated_at = strtotime(date('Y m d'));
-            $user->user_type_id = 4;//$_REQUEST['User']['user_type_id'];
+            $user->user_type_id = 4;//
+            $_REQUEST['User']['user_type_id'];
             if($user->save()){
                 \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'User has been created'));
                 $this->trigger(self::EVENT_AFTER_CREATE, $event);
@@ -60,10 +61,84 @@ class AdminController extends BaseAdminController
             
             return $this->redirect(['update', 'id' => $user->id]);
         }else{
-            echo "sfdf";
+            echo "no save";
         }
-        \app\models\Methods::print_array($_REQUEST);
+        // \app\models\Methods::print_array($_REQUEST);
         return $this->render('create', [
+            'user' => $user,
+        ]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $this->layout = 'admin';
+        Url::remember('', 'actions-redirect');
+        $user = $this->findModel($id);
+        $user->scenario = 'update';
+        $event = $this->getUserEvent($user);
+
+        $this->performAjaxValidation($user);
+
+        $this->trigger(self::EVENT_BEFORE_UPDATE, $event);
+        if ($user->load(\Yii::$app->request->post()) && $user->save()) {
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Account details have been updated'));
+            $this->trigger(self::EVENT_AFTER_UPDATE, $event);
+            return $this->refresh();
+        }
+
+        return $this->render('_account', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Updates an existing profile.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function actionUpdateProfile($id)
+    {
+        Url::remember('', 'actions-redirect');
+        $user    = $this->findModel($id);
+        $profile = $user->profile;
+
+        if ($profile == null) {
+            $profile = \Yii::createObject(Profile::className());
+            $profile->link('user', $user);
+        }
+        $event = $this->getProfileEvent($profile);
+
+        $this->performAjaxValidation($profile);
+
+        $this->trigger(self::EVENT_BEFORE_PROFILE_UPDATE, $event);
+
+        if ($profile->load(\Yii::$app->request->post()) && $profile->save()) {
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Profile details have been updated'));
+            $this->trigger(self::EVENT_AFTER_PROFILE_UPDATE, $event);
+            return $this->refresh();
+        }
+
+        return $this->render('_profile', [
+            'user'    => $user,
+            'profile' => $profile,
+        ]);
+    }
+
+    /**
+     * Shows information about user.
+     *
+     * @param int $id
+     *
+     * @return string
+     */
+    public function actionInfo($id)
+    {
+        Url::remember('', 'actions-redirect');
+        $user = $this->findModel($id);
+
+        return $this->render('_info', [
             'user' => $user,
         ]);
     }
