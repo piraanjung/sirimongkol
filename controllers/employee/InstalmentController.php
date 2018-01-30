@@ -182,7 +182,7 @@ class InstalmentController extends Controller
             ->leftJoin('instalmentcostdetails b', 'a.instalment_id = b.instalment_id')
             ->leftJoin('instalment c', 'a.instalment_id = c.id')
             ->where(['a.instalment_id'=> $instalment_id])
-            ->orderBy('b.contructor_id', 'asc')
+            ->orderBy('b.money_type_id,b.contructor_id', 'asc')
             ->groupBy('b.id')
             ->all();
         $rows = $query->all();
@@ -311,14 +311,14 @@ class InstalmentController extends Controller
     private function getpaidByCashOrBank($paidtype, $instalment_id){
         // รายงานการจ่ายเงินงวดงานโดยจ่ายเงินสด
         $query = new Query();
-        $query->select('a.*, b.contructor_id, c.username, d.total, 
+        $query->select('a.*, b.contructor_id, c.name, d.total, 
                         e.paid_type, e.paid_amount,e.id')
                 ->from('instalment a')
                 ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-                ->leftJoin('user c', 'b.contructor_id = c.id')
-                ->leftJoin('summoney d', 'c.id = d.contructor_id')
+                ->leftJoin('profile c', 'b.contructor_id = c.user_id')
+                ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
                 ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-                ->where(['a.instalment' => $instalment_id])
+                ->where(['a.id' => $instalment_id])
                 ->andWhere(['e.paid_type' => $paidtype])
                 ->groupBy('e.id', 'asc');
         $command = $query->createCommand();

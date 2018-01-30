@@ -22,7 +22,7 @@
         </tr>
         <?php foreach($paidbybanks as $paidbybank){ ?>
         <tr>
-            <td><?=$paidbybank['username'];?></td>
+            <td><?=$paidbybank['name'];?></td>
             <td class="r"><?=number_format($paidbybank['paid_amount'],2);?></td>
         </tr>
         <?php $sum += $paidbybank['paid_amount']; ?>

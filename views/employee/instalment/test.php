@@ -50,15 +50,28 @@
                 <td><?=++$i?></td>
                 <td>
                 <?php 
-                    $payee = app\models\Payee::find()
-                        ->where(['id'=>$model['contructor_id']])->one();
+                    $payee = app\models\Profile::find()
+                        ->where(['user_id'=>$model['contructor_id']])->one();
                         if($showname ==1){
                             echo $payee['name'];
                             $showname =0;
                         }
                 ?>
                 </td>   
-                <td><?=$model['house_id'];?></td>
+                <td>
+                    <?php
+                        if($model['house_id']== 0){
+                            echo " ";
+                        }else{
+                            $house =  \app\models\Houses::find()
+                                ->select('house_name')
+                                ->where(['id'=>$model['house_id']])->one(); 
+                            echo $house['house_name'];
+                        }
+                        
+                    ?>
+                </td>
+
                 <td>
                 <?php 
                     $wc = \app\models\WorkClassify::find()
@@ -79,7 +92,11 @@
                 <td class="_number">
                 <?php 
                     echo number_format($model['amount'],2);
-                    $sum_by_payee += $model['amount'];
+                    if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                        $sum_by_payee -= $model['amount'];
+                    }else{
+                        $sum_by_payee += $model['amount'];
+                    }
                 ?>
                 </td>
                 <td><?=$model['comment'];?></td>
@@ -91,15 +108,26 @@
                     <td><?=++$i?></td>
                     <td>
                     <?php 
-                        $payee = app\models\User::find()
-                            ->where(['id'=>$model['contructor_id']])->one();
+                        $payee = app\models\Profile::find()
+                            ->where(['user_id'=>$model['contructor_id']])->one();
                             if($showname ==1){
-                                echo $payee['username'];
+                                echo $payee['name'];
                                 $showname =0;
                             }
                     ?>
                     </td>   
-                    <td><?=$model['house_id'];?></td>
+                    <td><?php
+                            if($model['house_id']== 0){
+                                echo " ";
+                            }else{
+                                $house =  \app\models\Houses::find()
+                                    ->select('house_name')
+                                    ->where(['id'=>$model['house_id']])->one(); 
+                                echo $house['house_name'];
+                            }
+                           
+                            ?>
+                    </td>
                     <td>
                     <?php 
                         $wc = \app\models\WorkCategory::find()
@@ -120,7 +148,11 @@
                     <td class="_number">
                     <?php 
                         echo number_format($model['amount'],2);
-                        $sum_by_payee += $model['amount'];
+                        if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                            $sum_by_payee -= $model['amount'];
+                        }else{
+                            $sum_by_payee += $model['amount'];
+                        }
                     ?>
                     </td>
                     <td><?=$model['comment'];?></td>
