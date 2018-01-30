@@ -130,6 +130,7 @@ class InstalmentController extends Controller
     }
 
     public function actionInstalment_by_instructor(){
+        // \app\models\Methods::print_array($addlist);
 
         $this->layout = "employee_layout";
         $model = new \app\models\Instalmentcostdetails ;
@@ -140,16 +141,18 @@ class InstalmentController extends Controller
 
         $session = Yii::$app->session;
         // unset($_SESSION['laborcostlist']);
-        
+        // \app\models\Methods::print_array($_SESSION['laborcostlist']); 
         if (!$session->has('laborcostlist')){
             $_SESSION['laborcostlist'] =array();
         }
+        // \app\models\Methods::print_array($_SESSION); 
         if ($model->load(Yii::$app->request->post()) || isset($_REQUEST['hidden'])) {
             if($_REQUEST['hidden'] =="addlists"){
                 array_push( $_SESSION['laborcostlist'], Yii::$app->request->post());
                 $_REQUEST['hidden'] = "";
             }else if($_REQUEST['hidden'] =="savelists"){
                 //ทำการบันทึกข้อมูลการจ่ายงวดรายช่าง
+                // \app\models\Methods::print_array($_SESSION['laborcostlist']);
                 $inst =  $this->saveInstalmentDetails($_SESSION['laborcostlist']);
                 
                 unset($_SESSION['laborcostlist']);
@@ -241,7 +244,7 @@ class InstalmentController extends Controller
     }
 
     protected function saveInstalmentDetails($lists){
-        //\app\models\Methods::print_array($lists);
+        // \app\models\Methods::print_array($lists);
         $session = Yii::$app->session;
         foreach($lists  as $key => $req){
             $model = new \app\models\Instalmentcostdetails ();

@@ -66,8 +66,12 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                     'prompt' => 'เลือก...'])->label('เลือกช่าง'); ?>
                 </div>
                 <div class="col-md-3 col-xs-12">
-                    <?= $form->field($model, 'money_type_id')->dropDownList($moneyType,[
-                        'prompt' => 'เลือก...'])->label('ประเภทงวดที่จ่าย'); ?>
+                    <label class="control-label">ประเภทการจ่ายเงิน</label>
+                   <select name="paid_type" id="paid_type" class="form-control">
+                        <option>เลือก...</option>
+                        <option value="1" selected>จ่ายเงินงวดตามชนิดงาน</option>
+                        <option value="2">หักค่า กู้ยืมเงิน/เครื่องมือ</option>
+                   </select>
                 </div>
             </div>
 
@@ -85,49 +89,15 @@ if(Yii::$app->session->getFlash('save_res')!=""){
                         'workClassify' => $workClassify
                     ]);?>
                 </div>
-                <div id="loan_div">
-                    <div class="col-md-6 col-xs-12">
-                        <div class="box box-success">
-                            <div class="box-header with-border">
-                            <h3 class="box-title">หัก เงินกู้ยืม</h3>
-                            </div>
-                            <div class="box-body">
-                            <div class="row">
-                                <div class="col-xs-12- col-md-6">
-                                <input type="text" name="deduction[loan_deduction][amount]" 
-                                        id="loan_deduction_money" class="form-control">
-                                </div>
-                                <input type="hidden" name="deduction[loan_deduction][type]" value="3">
-                            </div>
-                            </div>
-                            <!-- /.box-body -->
-                        </div>
-                    </div>
+                <div class="tab-pane" id="timeline" style="display:none">
+                    <h2>หัก ค่ากู้ยืม/ค่าเครื่องมือ</h2>
+                    <?= $this->render('_loan_deduction_form',[
+                        'form' =>$form,
+                        'model' => $model,
+                        'houses' =>$houses,
+                        'instalment' => $instalment,
+                    ]);?>
                 </div>
-
-                <div id="equipment_div">
-                    <div class="col-md-6 col-xs-12">
-                        <div class="box box-success">
-                            <div class="box-header with-border">
-                            <h3 class="box-title">หัก ค่าเครื่องมือ</h3>
-                            </div>
-                            <div class="box-body">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                <input type="text" name="deduction[equipment_deduction][amount]" 
-                                        id="equipment_deduction_money" class="form-control">
-                                
-                                <input type="hidden" name="deduction[equipment_deduction][type]" value="4">
-                                </div>
-                            </div>
-                            </div>
-                            <!-- /.box-body -->
-                        </div>
-                    </div>
-                </div>
-
-
-                
             </div>
             
             <input type="hidden" name="hidden" value="addlists">
@@ -208,73 +178,25 @@ $script = <<< JS
 
     $( document ).ready(function() {
         $("#timeline input").prop("disabled", true);
-        
-        $("#loan_div").css("display", "none");
-        $("#loan_div input").prop("disabled", true);
-
-        $("#equipment_div").css("display", "none");
-        $("#equipment_div input").prop("disabled", true);
     });
 
-
-
-    $('#instalmentcostdetails-money_type_id').change(function(){
-        var _type = $(this).val()
-        if(_type == 1 || _type ==2){
-            $("#activity").css("display", "block");
+    $('#paid_type').change(function(){
+        console.log($(this).val())
+        if($(this).val() == 1){
             $("#activity input").prop("disabled", false);
             $("#activity select").prop("disabled", false);
             $("#activity textarea").prop("disabled", false);
-            $('#activity select#instalmentcostdetails-house_id option[value="0"]').remove()
-            $('#activity select#instalmentcostdetails-workclassify_id option[value="0"]').remove()
-            $('#activity select#workgroup option[value="0"]').remove()
-            $('#activity select#works option[value="0"]').remove()
-            
-            $("#loan_div").css("display", "none");
-            $("#loan_div input").prop("disabled", true);
-
-            $("#equipment_div").css("display", "none");
-            $("#equipment_div input").prop("disabled", true);
-            
-        }else{
-            if(_type == 3){
-                //จ่ายค่ากู้ยืม
-                $("#loan_div").css("display", "block");
-                $("#loan_div input").prop("disabled", false);
-
-                $("#equipment_div").css("display", "none");
-                $("#equipment_div input").prop("disabled", true);
-            
-            }else if(_type == 4){
-                //equipment_div
-                $("#equipment_div").css("display", "block");
-                $("#equipment_div input").prop("disabled", false);
-                $("#loan_div").css("display", "none");
-                $("#loan_div input").prop("disabled", true);
-            }
-            $('#activity').css("display", "none")
-            // $("#activity input").prop("disabled", true);
-            // $("#activity select").prop("disabled", true);
-            // $("#activity textarea").prop("disabled", true);
-            $('#activity select#instalmentcostdetails-house_id').append("<option value='0'>0</option>")
-            $('#activity select#instalmentcostdetails-house_id').val(0)
-            
-            $('#activity select#instalmentcostdetails-workclassify_id').append("<option value='0'>0</option>")
-            $('#activity select#instalmentcostdetails-workclassify_id').val(0)
-            
-            $('#activity select#workgroup').append("<option value='0'>0</option>")
-            $('#activity select#workgroup').val(0)
-            
-            $('#activity select#works').append("<option value='0'>0</option>")
-            $('#activity select#works').val(0)
-            
-            $('#w_controlstatement').val(0)
-            $('#instalmentcostdetails-amount').val(0)
-            
-        }//else
-        
-        
-        
+            $("#activity").attr("style", "display:block");
+            $("#timeline").attr("style", "display:none");
+            $("#timeline input").prop("disabled", true);
+        }else if($(this).val() == 2){
+            $("#timeline input").prop("disabled", false);
+            $("#activity input").prop("disabled", true);
+            $("#activity select").prop("disabled", true);
+            $("#activity textarea").prop("disabled", true);
+            $("#activity").attr("style", "display:none");
+            $("#timeline").attr("style", "display:block");
+        }
     })
 
 JS;

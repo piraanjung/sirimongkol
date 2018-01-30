@@ -14,7 +14,7 @@
                 <input type="hidden" name="deduction[loan_deduction][type]" value="3">
             </div>
             </div>
-            <!-- /.box-body -->s
+            <!-- /.box-body -->
         </div>
     </div>
     <div class="col-md-6 col-xs-12">
