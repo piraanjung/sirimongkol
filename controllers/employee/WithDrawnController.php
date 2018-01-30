@@ -16,14 +16,21 @@ class WithDrawnController extends \yii\web\Controller
             ->from('instalmentcostdetails')
             ->where(['instalment_id'=> $instalment_id])
             ->andWhere(['summoney_id' => 0])
-            ->orderBy('contructor_id', 'asc')
+            ->orderBy('money_type_id,contructor_id', 'asc')
             ->groupBy('id');
         $command = $query->createCommand();
         $rows = $command->queryAll();
-
+        $inst = \app\models\Instalment::find()->where(['id' => $instalment_id])->one();
+        $inst_date = explode(" ", $inst['create_date']);
+        $date = explode("-",$inst_date[0]);
+        $monththai = \app\models\Methods::getMonth($date[1]);
+        $yearthai = "25".$inst['year'];
+        $inst_str = $date[2]." ".$monththai." ".$yearthai." (".$inst['monthly']."/".$inst['instalment'].".".$inst['year'] .")";
+        // \app\models\Methods::print_array($inst_date);
         // 
         return $this->render('index',[
-            'models' => $rows
+            'models' => $rows,
+            'inst_str' => $inst_str
         ]);
     }
 

@@ -247,6 +247,7 @@ class InstalmentController extends Controller
         // \app\models\Methods::print_array($lists);
         $session = Yii::$app->session;
         foreach($lists  as $key => $req){
+            $m_type = $req['Instalmentcostdetails']['money_type_id'];
             $model = new \app\models\Instalmentcostdetails ();
             $model->instalment_id      = $req['Instalmentcostdetails']['instalment_id'];
             $model->contructor_id      = $req['Instalmentcostdetails']['contructor_id'];
@@ -254,8 +255,14 @@ class InstalmentController extends Controller
             $model->workclassify_id    = $req['Instalmentcostdetails']['workclassify_id'];
             $model->worktype_id        = $req['Laborcostdetails']['workgroup'];
             $model->work_id            = $req['Laborcostdetails']['works'];
-            $model->money_type_id      = $req['Instalmentcostdetails']['money_type_id'];
-            $model->amount             = $req['Instalmentcostdetails']['amount'];
+            $model->money_type_id      = $m_type;
+            if($m_type == 3 ){ //เงินยืม
+                $model->amount         = $req['deduction']['loan_deduction']['amount'];
+            }else if($m_type == 4){ //เงินค่าอุปกรณ์
+                $model->amount         = $req['deduction']['equipment_deduction']['amount'];
+            }else{
+                $model->amount         = $req['Instalmentcostdetails']['amount'];
+            }
             $model->summoney_id        = 0;
             $model->saver_id           = Yii::$app->user->identity->id;
             $model->comment            = $req['Instalmentcostdetails']['comment'];
@@ -263,6 +270,7 @@ class InstalmentController extends Controller
             $model->update_date        = date('y-m-d H:i:s');
             $model->save();
         }
+        // \app\models\Methods::print_array($lists);
         // $summoney = $this->sumAmountByIstalment();
         return $lists[0]['Instalmentcostdetails']['instalment_id'];
        

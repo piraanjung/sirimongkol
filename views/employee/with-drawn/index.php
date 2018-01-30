@@ -11,31 +11,13 @@ $this->params['breadcrumbs'][] = ['label' => 'จ่ายงวด', 'url' => [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>วิธีการจ่ายเงินให้ช่าง</h1>
-<style>
-.payee_sum{
-    background:#43B2F7;
-    color:#FFFFFF 
-}
-._total{
-    background:blue;
-    color:#FFFFFF;
-    text-align:right;
-}
-._number{
-    text-align:right
-}
-.paidmethod{
-    color:#000000;
-    text-align:right;
-    font-weight:bold
-}
-</style>
+
 <div class="box box-success">
 <div class="box-body">
 <?php if(count($models) >0){ ?>
 <?php $form = ActiveForm::begin(['action' => ['employee/with-drawn/create'],'options' => ['method' => 'post']]) ?>
     <p>
-    ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  30 พฤศจิกายน 2560 (งวด 11/2.60)
+    ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  <?=$inst_str;?>
     </p>
     <div class="tabel table-responsive">
         <table class="table table-condensed table-bordered">
@@ -60,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $i=0;
             $showname = 1;
             $total =0;
-            
+            // \app\models\Methods::print_array($models);
             foreach($models as $model){
                 if($curname != $model['contructor_id']  ){
                     echo "<tr class='payee_sum'>";
@@ -107,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                 ?>
                 </td>   
-                <td><?=$model['house_id']?></td>
+                <td><?=$model['house_id']== 0 ? " " : $model['house_id']; ?></td>
                 <td>
                 <?php 
                     $wc = \app\models\WorkClassify::find()
@@ -128,7 +110,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td class="_number">
                 <?php 
                     echo number_format($model['amount'],2);
-                    $sum_by_payee += $model['amount'];
+                    if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                        $sum_by_payee -= $model['amount'];
+                    }else{
+                        $sum_by_payee += $model['amount'];
+                    }
+                    
                 ?>
                 </td>
                 <td><?=$model['comment'];?></td>
@@ -148,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                     ?>
                     </td>   
-                    <td><?=$model['house_id'];?></td>
+                    <td><?=$model['house_id']== 0 ? " " : $model['house_id']; ?></td>
                     <td>
                     <?php 
                         $wc = \app\models\WorkCategory::find()
@@ -169,7 +156,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td class="_number">
                     <?php 
                         echo number_format($model['amount'],2);
-                        $sum_by_payee += $model['amount'];
+                        if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                            $sum_by_payee -= $model['amount'];
+                        }else{
+                            $sum_by_payee += $model['amount'];
+                        }
                     ?>
                     </td>
                     <td><?=$model['comment'];?></td>
@@ -224,7 +215,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </table>
     </div>
     <!-- <Html::a('บันทึก', ['create'], ['class' => 'btn  btn-success btn-raised']);?> -->
-    <input type="text" name="_instalment_id" value="<?=$models[0]['instalment_id']?>">
+    <input type="hidden" name="_instalment_id" value="<?=$models[0]['instalment_id']?>">
     <div class="form-group">
         <?= Html::submitButton('บันทึก' , ['class' => 'btn btn-success pull-right' ]) ?>
     </div>
