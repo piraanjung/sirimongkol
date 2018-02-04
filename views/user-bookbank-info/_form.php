@@ -10,8 +10,8 @@ use yii\helpers\ArrayHelper;
 $banks = \app\models\Banks::find()->all();
 $banksList = ArrayHelper::map($banks, 'id', 'name');
 
-$user = \app\models\User::find()->all();
-$userList = ArrayHelper::map($user, 'id', 'name')
+$user = \app\models\Profile::find()->all();
+$userList = ArrayHelper::map($user, 'user_id', 'name')
 ?>
 
 <div class="user-bookbank-info-form">

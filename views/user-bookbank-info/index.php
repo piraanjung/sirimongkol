@@ -28,11 +28,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'user_id',
-            'bank_id',
+            [
+                'attribute' =>'user_id',
+                'value' => function($model){
+                    $name = \app\models\Profile::find()
+                            ->where(['user_id' => $model->user_id])->one();
+                    return $name['name'];
+                }
+            ],
+            [
+                'attribute' => 'bank_id',
+                'value' => function($model){
+                    $bank = \app\models\Banks::find()
+                        ->where(['id'=> $model->bank_id])->one();
+                    return $bank['name'];
+                }
+            ],
             'account_bank',
-            'create_date',
-            'update_date',
+            // 'create_date',
+            // 'update_date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

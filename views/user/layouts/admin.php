@@ -99,11 +99,11 @@ AppAsset::register($this);
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <?=Html::img('@web/adminlte/dist/img/user2-160x160.jpg', ['class' => 'img-circle']);?>
+        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <!-- <p>Alexander Pierce</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
+        <p>Alexander Pierce</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
    
@@ -123,6 +123,10 @@ AppAsset::register($this);
           <?= Html::a('<i class="fa fa-circle-o"></i>โครงการ', ['/project/index']) ?>
         </li>
         <li>
+          
+          <?= Html::a('<i class="fa fa-circle-o"></i>แบบบ้าน', ['/house-model/index']) ?>
+        </li>
+        <li>
 
           <?= Html::a('<i class="fa fa-circle-o"></i>แปลงบ้าน', ['/houses/index']) ?>
         </li>
@@ -130,13 +134,13 @@ AppAsset::register($this);
         </li>
        
     
-      <li class=" treeview menu-open">
+      <li class="active treeview menu-open">
         <a href="#">
           <i class="fa fa-files-o"></i>
           <span>หมวดงาน</span>
           <span class="pull-right-container">
-          <i class="fa fa-angle-left pull-right"></i>
-        </span>
+            <span class="label label-primary pull-right"></span>
+          </span>
         </a>
         <ul class="treeview-menu">
         <li>
@@ -154,8 +158,25 @@ AppAsset::register($this);
       </ul>
       </li>
       
-      
-      <li class=" treeview menu-open">
+      <li class="active treeview menu-open">
+        <a href="#">
+          <i class="fa fa-laptop"></i>
+          <span>เกี่ยวกับธนาคาร</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+           <li>
+        <?= Html::a('<i class="fa fa-circle-o"></i>จัดการข้อมูลธนาคาร', ['/banks/index']) ?>
+        </li>
+        <li>
+        <?= Html::a('<i class="fa fa-circle-o"></i>เพิ่มข้อมูลธนาคารของผู้ใช้ระบบ', 
+              ['/user-bookbank-info/index']) ?>
+        </li>
+        </ul>
+      </li>
+      <li class="active treeview menu-open">
         <a href="#">
           <i class="fa fa-laptop"></i>
           <span>ผู้ใช้งานระบบ</span>
@@ -169,27 +190,7 @@ AppAsset::register($this);
           </li>
           <li>
             <?= Html::a('<i class="fa fa-circle-o"></i>เพิ่มผู้ใช้ระบบ', ['/user/admin/create']) ?>
-          </li>
 
-        </ul>
-      </li>
-
-      <li class=" treeview menu-open">
-        <a href="#">
-          <i class="fa fa-laptop"></i>
-          <span> จัดการข้อมูลธนาคาร</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li>
-            <?= Html::a('<i class="fa fa-circle-o"></i>รายการธนาคาร', ['/banks/index']) ?>
-          </li>
-          <li>
-            <?= Html::a('<i class="fa fa-circle-o"></i>บัญชีธนาคารผู้ใช้ระบบ', ['/user-bookbank-info/index']) ?>
-          </li>
-      
         </ul>
       </li>
       
@@ -202,13 +203,15 @@ AppAsset::register($this);
 <div class="content-wrapper" style="min-height: 960px;">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>
-      Dashboard
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
-    </ol>
+  <?= 
+  Breadcrumbs::widget([
+     'homeLink' => [ 
+                     'label' => Yii::t('yii', 'Dashboard'),
+                     'url' => Yii::$app->homeUrl,
+                ],
+     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+  ]) 
+?>
   </section>
 
   <!-- Main content -->

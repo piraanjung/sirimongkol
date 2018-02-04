@@ -214,6 +214,7 @@ $script = <<< JS
 
         $("#equipment_div").css("display", "none");
         $("#equipment_div input").prop("disabled", true);
+        $('#instalmentcostdetails-workclassify_id').val("");
     });
 
 
@@ -272,10 +273,11 @@ $script = <<< JS
             $('#instalmentcostdetails-amount').val(0)
             
         }//else
-        
-        
-        
-    })
+    });
+
+    $('#instalmentcostdetails-amount').change(function(){
+        console.log($(this).val())
+    });
 
 JS;
 $this->registerJs($script);

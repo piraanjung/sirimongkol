@@ -52,14 +52,18 @@ AppAsset::register($this);
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <?php echo Html::img('@web/adminlte/dist/img/user2-160x160.jpg',['class'=>'user-image']) ?>
 
-            <span class="hidden-xs">Admin</span>
+            <span class="hidden-xs">พนักงาน</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
             <?php echo Html::img('@web/adminlte/dist/img/user2-160x160.jpg',['class'=>'user-image']) ?>
               <p>
-                Alexander Pierce - Employee
+                <?php 
+                    $user = \app\models\Profile::find()
+                          ->where(['user_id' => Yii::$app->user->identity->id])->one();
+                    echo $user['name']." - พนักงาน";
+                ?>
               </p>
             </li>
             <!-- Menu Body -->
@@ -117,7 +121,7 @@ AppAsset::register($this);
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu" style="">
+          <ul class="treeview-menu">
             <li>
               <?= Html::a('<i class="fa fa-circle-o"></i>จ่ายเงินงวดงานรายช่าง', ['/employee/instalment/index']) ?>
             </li>

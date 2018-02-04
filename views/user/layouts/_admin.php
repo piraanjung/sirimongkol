@@ -34,7 +34,7 @@ AppAsset::register($this);
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b></b></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>CEO</b></span>
+    <span class="logo-lg"><b>Admin</b></span>
   </a>
 
   <!-- Header Navbar: style can be found in header.less -->
@@ -99,10 +99,11 @@ AppAsset::register($this);
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        <?=Html::img('@web/adminlte/dist/img/user2-160x160.jpg', ['class' => 'img-circle']);?>
       </div>
       <div class="pull-left info">
-        
+        <!-- <p>Alexander Pierce</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
       </div>
     </div>
    
@@ -111,7 +112,7 @@ AppAsset::register($this);
       <li class="header">การตั้งค่าระบบ</li>
       <li class="active treeview menu-open">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>โครงการและแปลงบ้าน</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -119,11 +120,78 @@ AppAsset::register($this);
           <ul class="treeview-menu" style="">
         <li>
           
-          <?= Html::a('<i class="fa fa-circle-o"></i>ความคืบหน้าโครงการ', ['/ceo/ceo/index']) ?>
+          <?= Html::a('<i class="fa fa-circle-o"></i>โครงการ', ['/project/index']) ?>
+        </li>
+        <li>
+
+          <?= Html::a('<i class="fa fa-circle-o"></i>แปลงบ้าน', ['/houses/index']) ?>
         </li>
       </ul>
         </li>
+       
+    
+      <li class=" treeview menu-open">
+        <a href="#">
+          <i class="fa fa-files-o"></i>
+          <span>หมวดงาน</span>
+          <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+        </a>
+        <ul class="treeview-menu">
+        <li>
+          
+          <?= Html::a('<i class="fa fa-circle-o"></i>หมวดงาน', ['/work-category/index']) ?>
+        </li>
+        <li>
+          
+          <?= Html::a('<i class="fa fa-circle-o"></i>กลุ่มงาน', ['/work-group/index']) ?>
+        </li>
+        <li>
+          
+          <?= Html::a('<i class="fa fa-circle-o"></i>งาน', ['/works/index']) ?>
+        </li>
+      </ul>
+      </li>
       
+      
+      <li class=" treeview menu-open">
+        <a href="#">
+          <i class="fa fa-laptop"></i>
+          <span>ผู้ใช้งานระบบ</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>จัดการผู้ใช้ระบบ', ['/user/admin/index']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>เพิ่มผู้ใช้ระบบ', ['/user/admin/create']) ?>
+          </li>
+
+        </ul>
+      </li>
+
+      <li class=" treeview menu-open">
+        <a href="#">
+          <i class="fa fa-laptop"></i>
+          <span> จัดการข้อมูลธนาคาร</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>รายการธนาคาร', ['/banks/index']) ?>
+          </li>
+          <li>
+            <?= Html::a('<i class="fa fa-circle-o"></i>บัญชีธนาคารผู้ใช้ระบบ', ['/user-bookbank-info/index']) ?>
+          </li>
+      
+        </ul>
+      </li>
       
       
     </section>
@@ -134,15 +202,13 @@ AppAsset::register($this);
 <div class="content-wrapper" style="min-height: 960px;">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-  <?= 
-  Breadcrumbs::widget([
-     'homeLink' => [ 
-                     'label' => Yii::t('yii', 'Dashboard'),
-                     'url' => Yii::$app->homeUrl,
-                ],
-     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-  ]) 
-?>
+    <h1>
+      Dashboard
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Dashboard</li>
+    </ol>
   </section>
 
   <!-- Main content -->

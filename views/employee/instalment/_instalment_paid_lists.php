@@ -7,8 +7,8 @@
         <th style="width:18%;text-align:center">ชื่อช่าง</th>
         <th style="width:8%;text-align:center">งวดที่</th>
         <th style="width:15%;text-align:center">หมวดงาน</th>
+        <th style="width:15%;text-align:center">กลุ่มงาน</th>
         <th style="width:15%;text-align:center">งาน</th>
-        <th style="width:15%;text-align:center">งบควบคุม(บาท)</th>
         <th style="width:12%;text-align:center">จำนวนจ่าย(บาท)</th>
         <th style="width:10%;text-align:center">ประเภทงวด</th>
         <th style="text-align:center"></th>
@@ -66,7 +66,7 @@
         <td>
             <?php 
                 $worktype = \app\models\Works::find()->select('work_name')
-                    ->where(['id'=> $ls['Laborcostdetails']['workgroup']])->one();
+                    ->where(['id'=> $ls['Laborcostdetails']['works']])->one();
                 echo count($worktype) == 0 ? "-" : $worktype['work_name'];
             ?>
             <input type="hidden" name="aa[work_type][]"  

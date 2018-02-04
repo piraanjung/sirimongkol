@@ -38,7 +38,7 @@ class UserBookbankInfoController extends Controller
         $this->layout = 'admin';
         $searchModel = new UserBookbankInfoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        // \app\models\Methods::print_array($dataProvider->getModels());
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -53,6 +53,7 @@ class UserBookbankInfoController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = 'admin';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -86,6 +87,7 @@ class UserBookbankInfoController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = 'admin';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
