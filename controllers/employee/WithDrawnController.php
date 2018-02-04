@@ -16,7 +16,7 @@ class WithDrawnController extends \yii\web\Controller
             ->from('instalmentcostdetails')
             ->where(['instalment_id'=> $instalment_id])
             ->andWhere(['summoney_id' => 0])
-            ->orderBy('money_type_id,contructor_id', 'asc')
+            ->orderBy('contructor_id,money_type_id', 'asc')
             ->groupBy('id');
         $command = $query->createCommand();
         $rows = $command->queryAll();

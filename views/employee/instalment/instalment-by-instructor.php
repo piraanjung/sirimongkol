@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
-use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -143,11 +142,11 @@ if(Yii::$app->session->getFlash('save_res')!=""){
        <div class="box box-success">
             <div class="box-body">
                 <div class="table-responsive">
-                    <?php $form = ActiveForm::begin(['id'=> $model->formName()]); ?>
+                    <?php $form2 = ActiveForm::begin(['id'=>'form2']); ?>
                         <?= $this->render('_instalment_paid_lists',[
                                             'addlist' => $addlist,
                                             'instalment' => $instalment,
-                                            'form' => $form
+                                            'form' => $form2
                             ]);    
                         ?>
                     <?php ActiveForm::end(); ?>

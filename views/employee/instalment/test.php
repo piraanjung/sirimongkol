@@ -72,22 +72,22 @@
                     ?>
                 </td>
 
-                <td>
+                <td class="work_despt">
                 <?php 
-                    $wc = \app\models\WorkClassify::find()
-                        ->where(['id'=>$model['workclassify_id']])->one();
-                    echo $wc['wc_name'];
+                    $wc = \app\models\Works::find()->select('work_name, work_control_statement')
+                        ->where(['id'=>$model['work_id']])->one();
+                    echo $wc['work_name'];
                 ?>
                 </td>
                 <td>
                 <?php 
-                    $wc = \app\models\MoneyType::find()
+                    $mt = \app\models\MoneyType::find()
                         ->where(['id'=>$model['money_type_id']])->one();
-                    echo $wc['name'];
+                    echo $mt['name'];
                 ?>
                 </td>
                 <td class="_number">
-                    <?=number_format($model['ceiling_money'],2);?>
+                    <?=number_format($wc['work_control_statement'],2);?>
                 </td>
                 <td class="_number">
                 <?php 
@@ -128,22 +128,22 @@
                            
                             ?>
                     </td>
-                    <td>
+                    <td class="work_despt">
                     <?php 
-                        $wc = \app\models\WorkCategory::find()
-                            ->where(['id'=>$model['workclassify_id']])->one();
-                        echo $wc['wc_name'];
+                        $wc = \app\models\Works::find()->select('work_name, work_control_statement')
+                            ->where(['id'=>$model['work_id']])->one();
+                        echo $wc['work_name'];
                     ?>
                     </td>
                     <td>
                     <?php 
-                        $wc = \app\models\MoneyType::find()
+                        $mt = \app\models\MoneyType::find()
                             ->where(['id'=>$model['money_type_id']])->one();
-                        echo $wc['name'];
+                        echo $mt['name'];
                     ?>
                     </td>
                     <td class="_number">
-                    <!-- <number_format($model['ceiling_money'],2);?> -->
+                    <?=number_format($wc['work_control_statement'],2);?>
                 </td>
                     <td class="_number">
                     <?php 

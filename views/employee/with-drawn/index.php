@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box-body">
 <?php if(count($models) >0){ ?>
 <?php $form = ActiveForm::begin(['action' => ['employee/with-drawn/create'],'options' => ['method' => 'post']]) ?>
-    <p>
-    ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  <?=$inst_str;?>
-    </p>
+    <h3>
+        ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  <?=$inst_str;?>
+    </h3>
     <div class="tabel table-responsive">
         <table class="table table-condensed table-bordered">
             <thead>
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>ชื่อช่าง</th>   
                     <th>เลขแปลงบ้าน</th>
                     <th>รายละเอียดงาน</th>
-                    <th>ลักษณะงาน</th>
+                    <th>ลักษณะเงิน</th>
                     <th>งบควบคุม</th>
                     <th>จำนวนเงิน</th>
                     <th>หมายเหตุ</th>
@@ -73,39 +73,52 @@ $this->params['breadcrumbs'][] = $this->title;
                           ";
                     $curname = $model['contructor_id'];
                     $sum_id= $model['summoney_id'];
-                    $total+=$sum_by_User;
-                    $sum_by_User =0;
+                    if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                        $total-=$sum_by_payee;
+                    }else{
+                        $total+=$sum_by_payee;
+                    }
+                    $sum_by_payee =0;
                     $showname =1;
                 ?>
                 <tr>
                 <td><?=++$i?></td>
                 <td>
                 <?php 
-                    $User = app\models\User::find()
-                        ->where(['id'=>$model['contructor_id']])->one();
+                    $User = app\models\Profile::find()
+                        ->where(['user_id'=>$model['contructor_id']])->one();
                         if($showname ==1){
                             echo $User['name'];
                             $showname =0;
                         }
                 ?>
                 </td>   
-                <td><?=$model['house_id']== 0 ? " " : $model['house_id']; ?></td>
-                <td>
+                <td><?php
+                        if($model['house_id']== 0 ){
+                            echo  " ";
+                        }else{
+                            $house = \app\models\Houses::find()->select('house_name')
+                                ->where(['id'=>$model['house_id']])->one();
+                            echo $house['house_name'];
+                        }
+                    ?>
+                </td>
+                <td class="work_despt">
                 <?php 
-                    $wc = \app\models\WorkClassify::find()
-                        ->where(['id'=>$model['workclassify_id']])->one();
-                    echo $wc['wc_name'];
+                    $work = \app\models\Works::find()->select('work_name, work_control_statement')
+                        ->where(['id'=>$model['work_id']])->one();
+                    echo $work['work_name'];
                 ?>
                 </td>
                 <td>
                 <?php 
-                    $wc = \app\models\MoneyType::find()
+                    $mt = \app\models\MoneyType::find()
                         ->where(['id'=>$model['money_type_id']])->one();
-                    echo $wc['name'];
+                    echo $mt['name'];
                 ?>
                 </td>
                 <td class="_number">
-                    <?=number_format($model['ceiling_money'],2);?>
+                    <?= $work['work_control_statement'];?>
                 </td>
                 <td class="_number">
                 <?php 
@@ -127,20 +140,30 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=++$i?></td>
                     <td>
                     <?php 
-                        $user = app\models\user::find()
-                            ->where(['id'=>$model['contructor_id']])->one();
+                        $user = app\models\Profile::find()
+                            ->where(['user_id'=>$model['contructor_id']])->one();
                             if($showname ==1){
-                                echo $user['username'];
+                                echo $user['name'];
                                 $showname =0;
                             }
                     ?>
                     </td>   
-                    <td><?=$model['house_id']== 0 ? " " : $model['house_id']; ?></td>
                     <td>
+                        <?php
+                            if($model['house_id']== 0 ){
+                                echo  " ";
+                            }else{
+                                $house = \app\models\Houses::find()->select('house_name')
+                                    ->where(['id'=>$model['house_id']])->one();
+                                echo $house['house_name'];
+                            }
+                        ?>
+                    </td>
+                    <td class="work_despt">
                     <?php 
-                        $wc = \app\models\WorkCategory::find()
-                            ->where(['id'=>$model['workclassify_id']])->one();
-                        echo $wc['wc_name'];
+                        $work = \app\models\Works::find()->select('work_name, work_control_statement')
+                        ->where(['id'=>$model['work_id']])->one();
+                        echo $work['work_name'];
                     ?>
                     </td>
                     <td>
@@ -151,8 +174,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                     </td>
                     <td class="_number">
-                    
-                </td>
+                        <?= $work['work_control_statement'];?>
+                    </td>
                     <td class="_number">
                     <?php 
                         echo number_format($model['amount'],2);

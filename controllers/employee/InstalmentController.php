@@ -182,7 +182,7 @@ class InstalmentController extends Controller
             ->leftJoin('instalmentcostdetails b', 'a.instalment_id = b.instalment_id')
             ->leftJoin('instalment c', 'a.instalment_id = c.id')
             ->where(['a.instalment_id'=> $instalment_id])
-            ->orderBy('b.money_type_id,b.contructor_id', 'asc')
+            ->orderBy('b.contructor_id, b.money_type_id', 'asc')
             ->groupBy('b.id')
             ->all();
         $rows = $query->all();
@@ -201,7 +201,7 @@ class InstalmentController extends Controller
         $ksb = $this->getTransferDivideBank(5, $instalment_id, 2);
         $bkb = $this->getTransferDivideBank(6, $instalment_id, 2);
         $gsb = $this->getTransferDivideBank(7, $instalment_id, 2);
-        // \app\models\Methods::print_array($paidbycash);
+        // \app\models\Methods::print_array($ktb);
         return $this->render('instalment_by_instructor_detail',[
             'models' => $rows,
             'paidbycash' => $paidbycash,
@@ -329,23 +329,30 @@ class InstalmentController extends Controller
 
     private function getTransferDivideBank($bank_id, $instalment_id, $paidtype){
         $query = new Query();
-        $query->select('a.*, b.contructor_id, c.username, d.total, g.id as bank_id, 
-                        e.paid_type, e.paid_amount,e.id, f.account_bank, g.name as bank')
+        $query->select('a.*, 
+                        b.contructor_id,
+                        c.name,
+                        d.total,
+                        e.paid_type,e.paid_amount,e.id,
+                        f.account_bank,
+                        g.id as bank_id, g.name as bank')
+                       
             ->from('instalment a')
             ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-            ->leftJoin('user c', 'b.contructor_id = c.id')
-            ->leftJoin('summoney d', 'c.id = d.contructor_id')
+            ->leftJoin('profile c', 'b.contructor_id = c.user_id')
+            ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
             ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-            ->leftJoin('user_bookbank_info f', 'c.id = f.user_id')
+            ->leftJoin('user_bookbank_info f', 'c.user_id = f.user_id')
             ->leftJoin('banks g', 'f.bank_id = g.id')
-            ->where(['a.instalment' => $instalment_id])
+            ->where(['a.id' => $instalment_id])
             ->andWhere(['e.paid_type' => $paidtype])
             ->andWhere(['g.id' => $bank_id])
             ->groupBy('e.id', 'asc');
+            
         $command = $query->createCommand();
         $model   = $command->queryAll();
          return count($model)> 0 ? $model : array();
-                    // \app\models\Form::print_array($model);
+                    // \app\models\Methods::print_array($model);
 
     }
     

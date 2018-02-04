@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <li><a data-toggle="tab" href="#paid_by_bank">- โอนเงินผ่านธนาคาร</a></li>
     </ul>
     </li>
-    <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">สรุปการโอนเงินแต่ละธนาคาร
+    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">สรุปการโอนเงินแต่ละธนาคาร
     <span class="caret"></span>        </a>
             <ul class="dropdown-menu">
                 <li><a data-toggle="tab" href="#transfer_divide_by_bank_bkb">- ธนาคารกรุงเทพ</a></li>
