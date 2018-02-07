@@ -4,7 +4,7 @@ use scotthuangzl\googlechart\GoogleChart;
 use app\models\Houses;
 /* @var $this yii\web\View */
 
-$this->title = 'ความคืบหน้าโครงการ';
+$this->title = 'ความคืบหน้าโครงการ2';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <br>
