@@ -157,12 +157,29 @@ AppAsset::register($this);
 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
-  
+  <ul>
+  <li>
+              <?= Html::a('Profile', ['/user/profile/show', 'id'=> Yii::$app->user->identity->id], ['class'=>'btn btn-default btn-flat']) ?>
+    </li>
+    <li>
+              <?= Html::a('Sign out', ['/user/security/logout'], 
+                  [
+                    'class'=>'btn btn-default btn-flat',
+                    'data' => [
+                      'confirm' => "Are you sure you want to delete profile?",
+                      'method' => 'post'
+                    ]
+                  ]
+              ) ?>
+            </li>
+  </ul>
 </aside>
 <!-- /.control-sidebar -->
 <!-- Add the sidebar's background. This div must be placed
      immediately after the control sidebar -->
-<div class="control-sidebar-bg"></div>
+<div class="control-sidebar-bg">
+  
+</div>
 
 </div>
 

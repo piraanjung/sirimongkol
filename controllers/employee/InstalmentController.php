@@ -150,6 +150,9 @@ class InstalmentController extends Controller
             if($_REQUEST['hidden'] =="addlists"){
                 array_push( $_SESSION['laborcostlist'], Yii::$app->request->post());
                 $_REQUEST['hidden'] = "";
+                $model->workclassify_id ='';
+                $model->amount= 0;
+                
             }else if($_REQUEST['hidden'] =="savelists"){
                 //ทำการบันทึกข้อมูลการจ่ายงวดรายช่าง
                 // \app\models\Methods::print_array($_SESSION['laborcostlist']);

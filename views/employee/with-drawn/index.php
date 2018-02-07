@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </h3>
     <div class="tabel table-responsive">
         <table class="table table-condensed table-bordered">
-            <thead>
-                <tr>
+            <thead >
+                <tr  id="tr_paid_list">
                     <th>ลำดับ</th>
                     <th>ชื่อช่าง</th>   
                     <th>เลขแปลงบ้าน</th>

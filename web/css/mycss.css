@@ -106,6 +106,7 @@
         clear: both
     }
 
+
 /*withdrawn*/
 .payee_sum{
     background:#43B2F7;
@@ -128,4 +129,8 @@
 /*views/employee/withdrawn*/
 .work_despt{
     text-align: left !important;
+}
+
+#tr_paid_list{
+    background-color: #3c8dbc !important;
 }

@@ -213,7 +213,8 @@ $script = <<< JS
 
         $("#equipment_div").css("display", "none");
         $("#equipment_div input").prop("disabled", true);
-        $('#instalmentcostdetails-workclassify_id').val("");
+
+        // $('#instalmentcostdetails-workclassify_id').val("");
     });
 
 
