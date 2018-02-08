@@ -66,7 +66,7 @@ class CeoController extends \yii\web\Controller
         a.projectname, a.start_date, a.end_date,a.control_statement,
         count(b.id) as unit_count
         from project a
-        left join houses b on a.id = b.project_id
+        left join houses b on a.project_id = b.project_id
         group by a.projectname,a.control_statement,b.project_id;';
         $data_one = Yii::$app->db->createCommand($sql_one)->queryAll();
         // \app\models\Methods::print_array($data_one);

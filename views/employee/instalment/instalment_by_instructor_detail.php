@@ -11,7 +11,9 @@ $this->title = 'สรุปข้อมูลการจ่ายงวด';
 $this->params['breadcrumbs'][] = ['label' => 'งวดจ่ายเงิน', 'url' => ['instalment/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
 
+</style>
 <div class="box box-success">
 <div class="box-body">
 <ul class="nav nav-tabs">

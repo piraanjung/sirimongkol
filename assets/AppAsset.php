@@ -33,6 +33,8 @@ class AppAsset extends AssetBundle
         // 'adminlte/bower_components/Ionicons/css/ionicons.min.css',
         // 'adminlte/dist/css/AdminLTE.min.css',
         // 'adminlte/dist/css/skins/_all-skins.css',
+        ['css/print.css', 'media' => 'print'],
+
 
     ];
     public $js = [
