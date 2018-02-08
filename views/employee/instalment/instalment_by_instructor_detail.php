@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <style>
 
 </style>
-<div class="box box-success">
+<div class="box box-success" >
 <div class="box-body">
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">ผู้รับเหมา</a></li>
