@@ -98,11 +98,6 @@ class CeoController extends \yii\web\Controller
             array_push($arr_payee, $d1);
         }
         
-        // $sql_grid = 'select a.projectname,ifnull(sum(c.ceiling_money),0)as fixpaid,
-        //             ifnull(sum(c.paid_amount),0)as paid from project a
-        //             left join form b on a.project_id = b.project_id
-        //             left join laborcostdetails c on b.id = c.ref_id
-        //             group by a.projectname;';
         $sql_grid = 'select a.projectname,
                     ifnull(sum(d.work_control_statement),0)as fixpaid,
                     ifnull(sum(c.amount),0)as paid 
@@ -112,7 +107,6 @@ class CeoController extends \yii\web\Controller
                     left join works d on c.work_id = d.id
                     group by a.projectname;';
         $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
-        // \app\models\Methods::print_array($data_grid);
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $data_grid
         ]);
@@ -133,7 +127,9 @@ class CeoController extends \yii\web\Controller
         $command = $query->select(['h.*', 'hm.hm_name','hm.hm_control_statment'])
             ->from('houses h')
             ->leftJoin('house_model hm', ' h.house_model_id = hm.id')
+            ->where(['h.project_id'=> $project_id])
             ->all();
+        // \app\models\Methods::print_array($command);
         $project = \app\models\Project::find()
                 ->where(['project_id' => $project_id])
                 ->one();    
@@ -148,13 +144,17 @@ class CeoController extends \yii\web\Controller
             ],
         ]);
         
-        $query = new Query;
-        $query->select('a.*, b.*')
-            ->from('instalmentcostdetails a')
-            ->leftJoin('instalment b', 'a.instalment_id = b.instalment')
-            ->where(['b.project_id' => $_REQUEST['project_id']])
-            ->groupBy('a.instalment_id');
-        $model = $query->all();
+        $query2 = new Query;
+        // $query2->select('a.*, b.*')
+        //     ->from('instalmentcostdetails a')
+        //     ->leftJoin('instalment b', 'a.instalment_id = b.instalment')
+        //     ->where(['b.project_id' => $project_id])
+        //     ->groupBy('a.instalment_id');
+        $query2->select('a.*, b.*')
+                ->from('instalment a')
+                ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
+                ->where(['a.project_id' => $project_id]);
+        $model = $query2->all();
         // \app\models\Methods::print_array($model);
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $model,

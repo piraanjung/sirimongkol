@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
        </div>
     <div class="col-xs-12 col-md-3">
-        <div class="col-xs-12 col-md-12 content">
+        <div class="col-xs-12 col-md-12 contents">
             <div class="_header">จำนวนบ้าน</div>
             <div class="_content">
                 <div>&nbsp;</div>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="small-text">หลัง</span>
             </div>
         </div>
-        <div class="col-xs-12 col-md-12 content">
+        <div class="col-xs-12 col-md-12 contents">
             <div class="_header">ความคืบหน้าการก่อสร้าง</div>
             <div class="_content">
                 <div>
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-xs-12 col-md-3">
-        <div class="col-xs-12 col-md-12 content">
+        <div class="col-xs-12 col-md-12 contents">
             <div class="_header">งบก่อสร้าง</div>
             <div class="_content">
                 <div>&nbsp;</div>
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="small-text">บาท</span>
             </div>
         </div>
-        <div class="col-xs-12 col-md-12 content">
+        <div class="col-xs-12 col-md-12 contents">
             <div class="_header">จ่ายแล้ว</div>
                 <div class="_content">
                 <div>&nbsp;</div>
@@ -72,15 +72,15 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-xs-12 col-md-3">
-        <div class="col-xs-12 col-md-12 content">
+        <div class="col-xs-12 col-md-12 contents">
             <div class="_header">ระยะเวลาการก่อสร้าง</div>
             <div class="_content">
-                <div  class="big-text">1 มกราคม 2560</div>
+                <div  class="big-text"><?=$project['start_date'];?></div>
                 <div  class="big-text" style="text-align:center">-</div>
-                <div  class="big-text">1 มกราคม 2560</div>
+                <div  class="big-text"><?=$project['end_date'];?></div>
             </div>
         </div>
-        <div class="col-xs-12 col-md-12 content">
+        <div class="col-xs-12 col-md-12 contents">
             <div class="_header">จ่ายแล้ว : งบก่อสร้าง</div>
             <div class="_content">
                 <div>&nbsp;</div>
@@ -98,6 +98,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="box box-success">
 <div class="box-body">
+    <?=print_r($provider->getModels());?>
+    <?= Gridview::widget([
+            'dataProvider'=> $provider,
+            // 'filterModel' => $searchModel,
+            // 'columns' => $gridColumns,
+            'responsive'=>true,
+            'hover'=>true,
+            'columns'=>[
+                ['class' => 'kartik\grid\SerialColumn'],
+                [
+                    'attribute' =>'house_name',
+                    'header' => 'แปลงบ้าน',
+                    'value' => function($model){
+                        return $model['house_name'];
+                    }
+                ],
+                [
+                    'attribute' =>'hm_name',
+                    'header' => 'แบบบ้าน',
+                    'value' => function($model){
+                        return $model['hm_name'];
+                    }
+                ],
+                [
+                    'attribute' =>'hm_control_statment',
+                    'header' => 'งบควบคุม',
+                    'value' => function($model){
+                        return number_format($model['hm_control_statment'],2);
+                    }
+                ]
+            ]
+    ]);
+    ?>
 <?= GridView::widget([
     'dataProvider'=> $dataProvider,
     // 'filterModel' => $searchModel,
