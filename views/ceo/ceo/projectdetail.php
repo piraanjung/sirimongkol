@@ -22,12 +22,56 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 
-
    
 
 <div class="box box-success">
 <div class="box-body">
-    <?= Gridview::widget([
+    <table class="kv-grid-table table table-hover table-bordered table-striped kv-table-wrap">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>แปลงบ้าน</th>
+                <th>แบบบ้าน</th>
+                <th>จ่ายเงินแล้ว (บาท)</th>
+                <th>งบควบคุม (บาท)</th>
+                <th>คิดเป็น (%)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                $i=1;
+                foreach($provider->getModels() as $model){
+                    $query = new Query();
+                    $query->select(['sum(amount) as _total'])
+                    ->from('instalmentcostdetails')
+                    ->where(['house_id' =>$model['id']]);
+                    $command = $query->createCommand();
+                    // $command->sql returns the actual SQL
+                    $rows = $command->queryAll();
+
+                    $progress_percent = ($rows[0]['_total']/$model['hm_control_statment'])*100;
+            ?>
+            <tr class="<?=$rows[0]['_total']>100 ? '_normal' : '_abnormal';?>">
+                <td><?=$i++;?></td>
+                <td><?=$model['house_name'];?></td>
+                <td><?=$model['hm_name'];?></td>
+                <td class="number_format_td"><?=number_format($rows[0]['_total'],2)?></td>
+                <td class="number_format_td"><?=number_format($model['hm_control_statment'],2);?></td>
+                <td class="number_format_td"><?=number_format($progress_percent,2);?></td>
+                <td>
+                    <?=Html::a('รายละเอียด', ['/ceo/laborcostdetails/instalmentdetail_by_house',
+                            'id'=>$model['id'], 'project_id' => $model['project_id']],
+                                ['class'=> 'btn    btn-info']);
+                    ?>
+                </td>
+            </tr>
+            <?php    
+                }//foreach
+            ?>
+        </tbody>
+    </table>
+    <!-- < Gridview::widget([
             'dataProvider'=> $provider,
             // 'filterModel' => $searchModel,
             // 'columns' => $gridColumns,
@@ -114,7 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]
     ]);
-    ?>
+    ?> -->
 <!-- <= GridView::widget([
     'dataProvider'=> $dataProvider,
     // 'filterModel' => $searchModel,

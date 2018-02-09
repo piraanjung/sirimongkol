@@ -13,13 +13,13 @@ use yii\db\Query;
 $this->title = 'สรุปการจ่ายค่าแรง แปลงที่'.$instalment[0]['house_id'].
                 " งวดที่ ".$instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'].
                 ".".$instalment[0]['instalment_year'];
-$this->params['breadcrumbs'][] = ['label' => 'ข้อมูลรายแปลง', 'url' => ['/ceo/laborcostdetails/index',
-                                    'project_id'=>$instalment[0]['project_id'], 'instalment'=>$instalment[0]['instalment']]]; 
+$this->params['breadcrumbs'][] = ['label' => 'ข้อมูลรายแปลง', 
+                'url' => 'index.php?r=ceo/ceo/projectdetail&project_id='.$instalment[0]['project_id']]; 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <br>
 
-<div class="box box-succss">
+<div class="box box-success">
 <div class='box-body'>
     <h2><?=$this->title;?></h2>
     
