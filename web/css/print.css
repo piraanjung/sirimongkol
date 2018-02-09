@@ -1,7 +1,10 @@
 .payee_sum{
-    background-color:red !important;
+    background:red !important;
 }
 h3{
     color:red !important
+}
+td{
+    background: #333333  !important;
 }
 
