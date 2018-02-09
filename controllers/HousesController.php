@@ -89,9 +89,9 @@ class HousesController extends Controller
     {
         $this->layout = 'admin';
         $model = $this->findModel($id);
-
+        // \app\models\Methods::print_array($_REQUEST);die();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

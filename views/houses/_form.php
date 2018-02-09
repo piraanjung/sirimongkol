@@ -34,7 +34,7 @@ use kartik\date\DatePicker;
             <?php 
                 $projects= app\models\Project::find()->all();
 
-                $listData=ArrayHelper::map($projects,'id','projectname');
+                $listData=ArrayHelper::map($projects,'project_id','projectname');
 
                 echo $form->field($model, 'project_id')->dropDownList(
                                                 $listData, 
