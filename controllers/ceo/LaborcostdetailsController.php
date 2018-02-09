@@ -42,19 +42,19 @@ class LaborcostdetailsController extends Controller
         $this->layout = 'ceo';
         $query = new Query;
         $query->select('
-                a.*, 
-                b.*,
+                a.*,
                 d.projectname
             ')
             ->from('instalmentcostdetails a')
-            ->leftJoin('instalment b', 'a.instalment_id = b.instalment')
+            // ->leftJoin('instalment b', 'a.instalment_id = b.instalment')
             ->leftJoin('houses c', 'a.house_id = c.id')
             ->leftJoin('project d', 'c.project_id = d.project_id')
-            ->where(['b.project_id' => $_REQUEST['project_id']])
-            ->andWhere(['a.instalment_id' => $_REQUEST['instalment']])
+            ->where(['c.project_id' => $_REQUEST['project_id']])
+            ->andWhere(['c.id' => $_REQUEST['id']])
+            // ->andWhere(['a.instalment_id' => $_REQUEST['instalment']])
             ->groupBy('a.instalment_id');
         $model = $query->all();
-        // \app\models\Form::print_array($model);
+        \app\models\Methods::print_array($model);
         $dataProvider = new ArrayDataProvider([
             'allModels' => $model,
             'pagination' => [
@@ -92,7 +92,7 @@ class LaborcostdetailsController extends Controller
         $this->layout = 'ceo';
         $query = new Query;
         $query->select('a.*, 
-                b.username as constructorname ,
+                b.name ,
                 c.wc_name,
                 d.wg_name,
                 e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
@@ -103,7 +103,7 @@ class LaborcostdetailsController extends Controller
                 j.projectname
             ')
             ->from('instalmentcostdetails a')
-            ->leftJoin('user b', 'a.contructor_id = b.id')
+            ->leftJoin('profile b', 'a.contructor_id = b.user_id')
             ->leftJoin('work_category c', 'a.workclassify_id = c.id ')
             ->leftJoin('work_group d', 'a.worktype_id = d.id')
             ->leftJoin('works i', 'a.work_id = i.id')
@@ -112,8 +112,8 @@ class LaborcostdetailsController extends Controller
             ->leftJoin('houses g', 'a.house_id = g.id')
             ->leftJoin('house_model h', 'g.house_model_id = h.id')
             ->leftJoin('project j', 'e.project_id = j.project_id')
-            ->where(['a.house_id' => $_REQUEST['house_id']])
-            ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
+            ->where(['a.house_id' => $_REQUEST['id']])
+            // ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
             ;
         $instalment = $query->all();    
 // \app\models\Methods::print_array($instalment);

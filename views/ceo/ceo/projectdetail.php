@@ -13,92 +13,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <br>
 <div class="owner-default-index">
-<div class="box box-success">
-<div class="row box-detail">
-    <div class="col-xs-12 col-md-3" style="background-color:#74CC93;height:360px">
-        <div class="project">
-            <h2 style="color:#FFFFFF; text-align:center;">สิริมงคล</h2> 
-            <div class="project-number"><?=substr($houseCount[0]['project_id'],-1);?></div>
-        </div>
-       </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="col-xs-12 col-md-12 contents">
-            <div class="_header">จำนวนบ้าน</div>
-            <div class="_content">
-                <div>&nbsp;</div>
-                <span class="big-text"><?=count($houseCount);?></span>
-                <span class="small-text">หลัง</span>
-            </div>
-        </div>
-        <div class="col-xs-12 col-md-12 contents">
-            <div class="_header">ความคืบหน้าการก่อสร้าง</div>
-            <div class="_content">
-                <div>
-                    <span class="small-text">บ้านแล้วเสร็จ</span>
-                    <span class="big-text"><?=$completeBuildedHoueses;?></span>
-                    <span class="small-text">หลัง</span>
-                </div>
-                <div>
-                    <span class="small-text">กำลังก่อสร้าง</span>
-                    <span class="big-text"><?=$duringBuildedHouses;?></span>
-                    <span class="small-text">หลัง</span>
-                </div>
-                <div>
-                    <span class="small-text">ยังไม่ดำเนินการ</span>
-                    <span class="big-text">
-                        <?=count($houseCount)-($completeBuildedHoueses+$duringBuildedHouses);?>
-                    </span>
-                    <span class="small-text">หลัง</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="col-xs-12 col-md-12 contents">
-            <div class="_header">งบก่อสร้าง</div>
-            <div class="_content">
-                <div>&nbsp;</div>
-                <span class="big-text"><?=number_format($project['control_statement'],2);?></span>
-                <span class="small-text">บาท</span>
-            </div>
-        </div>
-        <div class="col-xs-12 col-md-12 contents">
-            <div class="_header">จ่ายแล้ว</div>
-                <div class="_content">
-                <div>&nbsp;</div>
-                <span class="big-text"><?=number_format($sumPaidAmountByProject,2);?></span>
-                <span class="small-text">บาท</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="col-xs-12 col-md-12 contents">
-            <div class="_header">ระยะเวลาการก่อสร้าง</div>
-            <div class="_content">
-                <div  class="big-text"><?=$project['start_date'];?></div>
-                <div  class="big-text" style="text-align:center">-</div>
-                <div  class="big-text"><?=$project['end_date'];?></div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-md-12 contents">
-            <div class="_header">จ่ายแล้ว : งบก่อสร้าง</div>
-            <div class="_content">
-                <div>&nbsp;</div>
-                <span class="big-text">
-                <?=number_format(($sumPaidAmountByProject*100)/$project['control_statement'],2);?>
-                </span>
-                <span class="small-text">%</span>
-            </div>
-        </div>
-    </div>
-</div><!-- row -->
-</div><!-- well -->
+    <?= $this->render('_projectdetail_header',[
+        'houseCount' => $houseCount,
+        'completeBuildedHoueses' => $completeBuildedHoueses,
+        'duringBuildedHouses' => $duringBuildedHouses,
+        'project' => $project,
+        'sumPaidAmountByProject' => $sumPaidAmountByProject
+    ]);
+    ?>
+
 
    
 
 <div class="box box-success">
 <div class="box-body">
-    <?=print_r($provider->getModels());?>
     <?= Gridview::widget([
             'dataProvider'=> $provider,
             // 'filterModel' => $searchModel,
@@ -122,16 +50,72 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
                 [
+                    'attribute' =>'',
+                    'header' => 'จำนวนงวด',
+                    'value' => function($model){
+                        return $model['house_status'];
+                    }
+                ],
+                [
+                    'attribute' =>'',
+                    'header' => 'จ่ายเงินแล้ว',
+                    'value' => function($model){
+                            $query = new Query();
+                            $query->select(['sum(amount) as _total'])
+                            ->from('instalmentcostdetails')
+                            ->where(['house_id' =>$model['id']]);
+                            $command = $query->createCommand();
+                            // $command->sql returns the actual SQL
+                            $rows = $command->queryAll();
+
+                        return $rows[0]['_total'];
+                    }
+                ],
+                [
                     'attribute' =>'hm_control_statment',
                     'header' => 'งบควบคุม',
                     'value' => function($model){
                         return number_format($model['hm_control_statment'],2);
                     }
-                ]
+                ],
+                [
+                    'attribute' =>'house_status',
+                    'header' => 'สถานะการจ่ายเงิน',
+                    'value' => function($model){
+                        $query = new Query();
+                            $query->select(['sum(amount) as _total'])
+                            ->from('instalmentcostdetails')
+                            ->where(['house_id' =>$model['id']]);
+                            $command = $query->createCommand();
+                            // $command->sql returns the actual SQL
+                            $rows = $command->queryAll();
+
+                        $res = ($rows[0]['_total']/$model['hm_control_statment'])*100;
+                        if($res > 100 ){
+                            return number_format($res,2);
+                        }else{
+                            return number_format($res,2);
+                        }
+                    }
+                ],
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'template' => '{info}',
+                    'width' => '20%',
+                    'header' => '',
+                    'buttons'=>[
+        
+                        'info'=>function($url, $model){
+                            return Html::a('รายละเอียด', ['/ceo/laborcostdetails/instalmentdetail_by_house','id'=>$model['id'], 
+                            'project_id' => $model['project_id']],
+                                ['class'=> 'btn btn-raised btn-block  btn-success']);
+                        },
+                    ]
+                ],
             ]
     ]);
     ?>
-<?= GridView::widget([
+<!-- <= GridView::widget([
     'dataProvider'=> $dataProvider,
     // 'filterModel' => $searchModel,
     // 'columns' => $gridColumns,
@@ -169,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]
 ]);
-?>
+?> -->
 
 </div>
     

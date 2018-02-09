@@ -124,10 +124,11 @@ class CeoController extends \yii\web\Controller
     public function actionProjectdetail($project_id){
         $this->layout = 'ceo';
         $query = new Query();
-        $command = $query->select(['h.*', 'hm.hm_name','hm.hm_control_statment'])
-            ->from('houses h')
-            ->leftJoin('house_model hm', ' h.house_model_id = hm.id')
-            ->where(['h.project_id'=> $project_id])
+        $command = $query->select(['a.*', 'b.hm_name','b.hm_control_statment'])
+            ->from('houses a')
+            ->leftJoin('house_model b', ' a.house_model_id = b.id')
+            ->where(['a.project_id'=> $project_id])
+            // ->orderBy('a.house_name', 'desc')
             ->all();
         // \app\models\Methods::print_array($command);
         $project = \app\models\Project::find()

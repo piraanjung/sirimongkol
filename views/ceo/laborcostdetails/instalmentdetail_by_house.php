@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box box-succss">
 <div class='box-body'>
     <h2><?=$this->title;?></h2>
+    
     <table class ="table table-bordered">
         <thead>										
             <tr class="header">
@@ -86,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=$ins['instalment_monthly']."/".$ins['instalment'].".".$ins['instalment_year'];?></td>	
                     <td class="number_format_td"><?=number_format($ins['amount'],2);?></td>
                     <td><?=$ins['moneytype'];?></td>
-                    <td><?=$ins['constructorname'];?></td>
+                    <td><?=$ins['name'];?></td>
                     <td><?=$ins['comment'];?></td>
                     <td class="number_format_td"><?=number_format($ins['amount'],2);?></td>
                     <?php
