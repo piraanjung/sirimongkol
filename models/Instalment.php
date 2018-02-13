@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-
 /**
  * This is the model class for table "instalment".
  *
@@ -65,4 +64,7 @@ class Instalment extends \yii\db\ActiveRecord
         $moth_str = \app\models\Methods::getMonth($_month);
         echo $_day." ".$moth_str." ".$_year;
     }
+
+    
+
 }

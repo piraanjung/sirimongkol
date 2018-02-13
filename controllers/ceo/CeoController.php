@@ -123,28 +123,49 @@ class CeoController extends \yii\web\Controller
 
     public function actionProjectdetail($project_id){
         $this->layout = 'ceo';
-        $query = new Query();
-        $command = $query->select(['a.*', 'b.hm_name','b.hm_control_statment'])
-            ->from('houses a')
-            ->leftJoin('house_model b', ' a.house_model_id = b.id')
-            ->where(['a.project_id'=> $project_id])
-            // ->orderBy('a.house_name', 'desc')
-            ->all();
+
+        $sql_grid = 'select 
+            a.*, 
+            b.hm_name,b.hm_control_statment,
+            (select sum(amount) as _total
+                from instalmentcostdetails
+                where house_id = a.id) as sum_amount 
+            from houses a
+            left join house_model b ON a.house_model_id = b.id
+            where a.project_id='. $project_id;
+        $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
+        // $searchModel = new \app\models\TestSearch();
+        
+// \app\models\Methods::print_array($data_grid);
+
+        // $query = new Query();
+        // $command = $query->select([
+        //     'a.*', 
+        //     'b.hm_name','b.hm_control_statment',
+        //     "select(['sum(amount) as _total'])
+        //             ->from('instalmentcostdetails')
+        //             ->where(['house_id' =>a.id])"
+        //     ])
+        //     ->from('houses a')
+        //     ->leftJoin('house_model b', ' a.house_model_id = b.id')
+        //     ->where(['a.project_id'=> $project_id])
+        //     // ->orderBy('a.house_name', 'desc')
+        //     ->all();
         // \app\models\Methods::print_array($command);
         $project = \app\models\Project::find()
                 ->where(['project_id' => $project_id])
                 ->one();    
                 
         $provider = new ArrayDataProvider([
-            'allModels' =>$command,
+            'allModels' =>$data_grid,
             // 'sort' => [
             //     'attributes' => ['id', 'username', 'email'],
             // ],
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 20,
             ],
         ]);
-        
+        // $provider = $searchModel->search(Yii::$app->request->queryParams);
         $query2 = new Query;
         // $query2->select('a.*, b.*')
         //     ->from('instalmentcostdetails a')
@@ -160,7 +181,7 @@ class CeoController extends \yii\web\Controller
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $model,
                 'pagination' => [
-                    'pageSize' => 10,
+                    'pageSize' => 2,
                 ],
             ]);
 
@@ -181,7 +202,8 @@ class CeoController extends \yii\web\Controller
             'sumPaidAmountByProject' => $sumPaidAmountByProject,
             'provider' => $provider,
             'dataProvider' => $dataProvider,
-            'project' => $project
+            'project' => $project,
+            // 'searchModel' =>$searchModel
         ]);
     }
 }

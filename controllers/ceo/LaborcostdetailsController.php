@@ -122,7 +122,23 @@ class LaborcostdetailsController extends Controller
         ]);
     }
 
-
+    public function actionSummary_all_home(){
+        $homes=[];
+        for($i=1; $i<=100 ;$i++){
+            $sql = " select a.*, b.house_name  
+            from instalmentcostdetails a 
+            left join houses b ON a.house_id = b.id
+            where house_id=".$i.
+            " order by workclassify_id, worktype_id, work_id  asc"
+        ;
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+            array_push($homes, $data);
+        }
+        return $this->render('summary_all_home',[
+            'homes' => $homes
+        ]);
+        // \app\models\Methods::print_array($homes);
+    }
 
     /**
      * Displays a single Laborcostdetails model.

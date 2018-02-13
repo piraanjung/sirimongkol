@@ -14,8 +14,8 @@ class m180118_051308_create_project_table extends Migration
     {
         $this->createTable('project', [
             'id' => $this->primaryKey(),
-            'project_id' => $this->integer(11)->notNull()->unique(),
-            'projectname' => $this->string()->notNull()->unique(),
+            'project_id' => $this->integer()->notNull()->unique(),
+            'projectname' => $this->string(180)->notNull()->unique(),
             'control_statement' => $this->float()->notNull(),
             'start_date' => $this->date(),
             'end_date'  => $this->date(),

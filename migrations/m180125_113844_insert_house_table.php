@@ -29,53 +29,18 @@ class m180125_113844_insert_house_table extends Migration
     // Use up()/down() to run migration code without a transaction.
     public function up()
     {
-        $this->insert('houses',[
-            'house_name' => '85 A',
-            'house_model_id' => 1,
-            'project_id' => 6,
-            'house_status' => 0,
-            'create_date' => date('Y-m-d'),
-            'update_date' => date('Y-m-d'),
-
-        ]);
-
-        $this->insert('houses',[
-            'house_name' => '101 A',
-            'house_model_id' => 1,
-            'project_id' => 6,
-            'house_status' => 0,
-            'create_date' => date('Y-m-d'),
-            'update_date' => date('Y-m-d'),
-
-        ]);
-
-        $this->insert('houses',[
-            'house_name' => '103 A',
-            'house_model_id' => 1,
-            'project_id' => 6,
-            'house_status' => 0,
-            'create_date' => date('Y-m-d'),
-            'update_date' => date('Y-m-d'),
-
-        ]);
-        $this->insert('houses',[
-            'house_name' => '104 A',
-            'house_model_id' => 1,
-            'project_id' => 6,
-            'house_status' => 0,
-            'create_date' => date('Y-m-d'),
-            'update_date' => date('Y-m-d'),
-
-        ]);
-        $this->insert('houses',[
-            'house_name' => '89 A',
-            'house_model_id' => 1,
-            'project_id' => 6,
-            'house_status' => 0,
-            'create_date' => date('Y-m-d'),
-            'update_date' => date('Y-m-d'),
-
-        ]);
+        for($i=1; $i<=100; $i++){
+            $this->insert('houses',[
+                'house_name' => $i."A",
+                'house_model_id' => rand(1,2),
+                'project_id' => 6,
+                'house_status' => 0,
+                'create_date' => date('Y-m-d'),
+                'update_date' => date('Y-m-d'),
+    
+            ]);
+        }
+        
     }
 
     public function down()

@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\Instalment;
 /**
  * This is the model class for table "instalmentcostdetails".
  *
@@ -66,4 +66,8 @@ class Instalmentcostdetails extends \yii\db\ActiveRecord
             'update_date' => 'Update Date',
         ];
     }
+    public function getInstalment(){
+        return $this->hasOne(Instalment::className(),['instalment_id' => 'id']);
+    }
+
 }
