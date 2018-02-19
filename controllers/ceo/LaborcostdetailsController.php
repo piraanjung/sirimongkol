@@ -88,18 +88,19 @@ class LaborcostdetailsController extends Controller
     }
 
     public function actionInstalmentdetail_by_house(){
-        //  \app\models\Form::print_array($_REQUEST);
+        
         $this->layout = 'ceo';
         $query = new Query;
-        $query->select('a.*, 
+        $query->select('a.*, (select sum(amount) from instalmentcostdetails 
+                               where house_id='.$_REQUEST['id'].') as sum_amount,
                 b.name ,
                 c.wc_name,
-                d.wg_name,
-                e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
+                d.wg_name, d.id as wg_id,
+                e.id as inst_id, e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
                 f.name as moneytype,
-                g.id, g.project_id,
-                h.hm_name, h.id,
-                i.work_name, i.work_control_statement,
+                g.id, g.project_id, g.house_name,
+                h.hm_name, h.id as hm_id, h.hm_control_statment,
+                i.work_name,i.work_control_statement,
                 j.projectname
             ')
             ->from('instalmentcostdetails a')
@@ -115,8 +116,18 @@ class LaborcostdetailsController extends Controller
             ->where(['a.house_id' => $_REQUEST['id']])
             // ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
             ;
-        $instalment = $query->all();    
-// \app\models\Methods::print_array($instalment);
+        $instalment = $query->all(); 
+
+        // \app\models\Methods::print_array($instalment);
+        //บวก sum work group
+        foreach($instalment as $key => $ints){
+            $query2 = new Query;
+            $query2->select('SUM(work_control_statement) AS ww')
+                ->from('works')
+                ->where(['wg_id' => $ints['wg_id']]);
+            $w_statement = $query2->one();             
+            $instalment[$key]['work_control_statement'] =$w_statement['ww'];
+        }
         return $this->render('instalmentdetail_by_house',[
             'instalment' => $instalment,
         ]);
