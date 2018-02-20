@@ -151,6 +151,67 @@ class LaborcostdetailsController extends Controller
         // \app\models\Methods::print_array($homes);
     }
 
+    public function actionGetDataByInstalement($id){
+       
+        $sql ='SELECT 
+                a.instalment_id, a.worktype_id, a.amount, SUM(a.amount) as "sumpaid",
+                b.wg_name,
+                c.year, c.monthly, c.instalment,
+                (SELECT sum(c.work_control_statement) FROM works c 
+                        WHERE c.wg_id = a.worktype_id) AS "sum_statement_control"
+               
+            FROM `instalmentcostdetails` a
+            LEFT JOIN work_group b ON a.worktype_id = b.id
+            LEFT JOIN instalment c ON a.instalment_id = c.id
+            WHERE a.instalment_id='.$id.'
+            GROUP BY a.worktype_id
+            ORDER BY a.`worktype_id`  ASC';
+            $model = \Yii::$app->db->createCommand($sql)->queryAll();
+
+            $sum_all_statement_control =0;
+            $sum_all_amount =0;
+            foreach($model as $key => $m){
+                $sum_all_statement_control += $m['sum_statement_control'];
+                $sum_all_amount += $m['amount'];
+            }
+            $x = ($sum_all_amount/$sum_all_statement_control)*100;
+            $bg = $x > 100 ? 'bg-yellow' : '';
+            
+            echo "<div class='box box-success'>";
+            echo \app\models\Methods::getMonth($model[0]['monthly'])." ".
+                        $model[0]['year']." (".$model[0]['instalment'].")";
+                echo "<table class='table table-condensed table-bordered ".$bg."'>";
+                    echo    "<tr>
+                                <th  class='work_despt'>#</th>
+                                <th  class='work_despt'>กลุ่มงาน</th>
+                                <th  class='work_despt'>งบควบคุม</th>
+                                <th  class='work_despt'>จ่ายแล้ว</th>
+                                <th  class='work_despt'>%</th>
+                                <th  class='work_despt'>หมายเหตุ</th>
+                            </tr>";
+                foreach($model as $key => $m){
+                    $i= $key+1;
+                    $s = $m['sum_statement_control'] =='' ? 0 :(($m['amount']/$m['sum_statement_control'])*100);
+                    $work_bg = $m['amount'] > $m['sum_statement_control'] ? 'bg-red' : '';
+                    echo    "<tr class=".$work_bg.">
+                                <td>".$i."</td>
+                                <td>".$m['wg_name']."</td>
+                                <td>".$m['sum_statement_control']."</td>
+                                <td>".$m['amount']."</td>
+                                <td>".number_format($s,2)." %</td>
+                                <td></td>
+                            </tr>";
+                }
+                echo        "<tr>
+                                <td colspan='2'></td>
+                                <td>".$sum_all_statement_control."</td>
+                                <td>".$sum_all_amount."</td>
+                            </tr>";
+                echo "</table>";
+            echo "</div>";
+
+    }
+
     /**
      * Displays a single Laborcostdetails model.
      * @param integer $id
@@ -229,3 +290,4 @@ class LaborcostdetailsController extends Controller
         }
     }
 }
+// SELECT *, SUM(amount) FROM `instalmentcostdetails` WHERE `instalment_id` = 15 GROUP BY worktype_id ORDER BY `instalment_id` ASC
