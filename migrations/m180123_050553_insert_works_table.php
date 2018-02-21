@@ -29,6 +29,8 @@ class m180123_050553_insert_works_table extends Migration
     // Use up()/down() to run migration code without a transaction.
     public function up()
     {  
+        /* เตรียมงาน */
+        //$this->insert('')
        /* โครงสร้างบ้าน */
         $this->insert('works', [
             'work_name' => 'ฐานราก และ คานคอดิน',
