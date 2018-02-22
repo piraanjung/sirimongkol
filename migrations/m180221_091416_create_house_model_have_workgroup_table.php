@@ -14,6 +14,9 @@ class m180221_091416_create_house_model_have_workgroup_table extends Migration
     {
         $this->createTable('house_model_have_workgroup', [
             'id' => $this->primaryKey(),
+            'house_model_id' => $this->integer()->notNull(),
+            'wg_id' => $this->integer()->notNull(),
+            'cost_control' => $this->float()
         ]);
     }
 
