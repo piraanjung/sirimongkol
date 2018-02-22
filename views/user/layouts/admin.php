@@ -155,6 +155,9 @@ AppAsset::register($this);
           
           <?= Html::a('<i class="fa fa-circle-o"></i>งาน', ['/works/index']) ?>
         </li>
+        <li>
+          <?= Html::a('<i class="fa fa-circle-o"></i>ผูกแบบบ้านกับหมวดงาน', ['/house-model-have-workgroup/index']) ?>
+        </li>
       </ul>
       </li>
       

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\HouseModel;
 
 /**
  * This is the model class for table "house_model_have_workgroup".
@@ -41,9 +42,17 @@ class HouseModelHaveWorkgroup extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'house_model_id' => 'House Model ID',
-            'wg_id' => 'Wg ID',
-            'cost_control' => 'Cost Control',
+            'house_model_id' => 'แบบบ้าน',
+            'wg_id' => 'กลุ่มงาน',
+            'cost_control' => 'งบควบคุม',
         ];
+    }
+
+    public function getHouseModel(){
+        return $this->hasOne(HouseModel::className(),['id' => 'house_model_id']);
+    }
+
+    public function getWorkGroup(){
+        return $this->hasOne(WorkGroup::className(),['id' => 'wg_id']);
     }
 }

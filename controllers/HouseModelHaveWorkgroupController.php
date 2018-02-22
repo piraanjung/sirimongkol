@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\HouseModelHaveWorkgroup;
 use app\models\HouseModelHaveWorkgroupSearch;
+use app\models\WorkGroup;
+use app\models\HouseModel;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,6 +37,7 @@ class HouseModelHaveWorkgroupController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = "admin";
         $searchModel = new HouseModelHaveWorkgroupSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -52,6 +55,7 @@ class HouseModelHaveWorkgroupController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = "admin";
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -64,14 +68,20 @@ class HouseModelHaveWorkgroupController extends Controller
      */
     public function actionCreate()
     {
+        // \app\models\Methods::print_array($_REQUEST);
+        $this->layout = "admin";
         $model = new HouseModelHaveWorkgroup();
-
+        $house_model = HouseModel::find()->all();
+        $workgroup = WorkGroup::find()->all();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            // return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'workgroup' => $workgroup,
+            'house_model' => $house_model
         ]);
     }
 
@@ -84,14 +94,19 @@ class HouseModelHaveWorkgroupController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = "admin";
         $model = $this->findModel($id);
-
+        $house_model = HouseModel::find()->all();
+        $workgroup = WorkGroup::find()->all();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'workgroup' => $workgroup,
+            'house_model' => $house_model
         ]);
     }
 

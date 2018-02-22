@@ -143,4 +143,7 @@
     ._abnormal{
         background: lightsalmon !important
     }
+    .box{
+        box-shadow: 3px 3px #888888 !important;
+    }
 }/*@media*/
