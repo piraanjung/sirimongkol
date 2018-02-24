@@ -23,6 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class='box-body'>
   
     <h2><?=$this->title;?></h2>
+    <div>
+        <?=$this->render('_instalment_by_house_header',[
+                    'instalment' => $instalment
+                ])
+        ?>
+    </div>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#_by_instalment" data-toggle="tab" aria-expanded="false">งวดงาน</a></li>
         <li class=""><a href="#workgroup" data-toggle="tab" aria-expanded="false">กลุ่มงาน</a></li>

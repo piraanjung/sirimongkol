@@ -3,54 +3,54 @@
     $percent = ($instalment[0]['sum_amount']/$instalment[0]['hm_control_statment'])*100    
 ?>
     <div class="box box-success ">
-    <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="fa fa-map-o"></i></span>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-map-o"></i></span>
 
-            <div class="info-box-content">
-              <span class="info-box-text">แบบบ้าน :</span>
-              <span class="info-box-number"> <?=$instalment[0]['hm_name']; ?></span>
+                <div class="info-box-content">
+                <span class="info-box-text">แบบบ้าน :</span>
+                <span class="info-box-number"> <?=$instalment[0]['hm_name']; ?></span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-home"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">แปลงบ้าน</span>
-              <span class="info-box-number"><?=$instalment[0]['house_name'];?></span>
+            <!-- /.info-box -->
             </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-home"></i></span>
 
-        <!-- fix for small devices only -->
-        <div class="clearfix visible-sm-block"></div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box <?=$percent > 100 ?' bg-yellow' : '' ?>">
-            <span class="info-box-icon <?=$percent > 100 ?' bg-yellow' : 'bg-green' ?>">
-                <i class="fa  fa-line-chart"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">สถานะการก่อสร้าง</span>
-              <span class="info-box-number"><?=number_format($percent,2);?><small>%</small></span>
-              <span class="info-box-text"><?=$percent > 100 ?'เกินงบควบคุม' : 'ปกติ' ?></span>
+                <div class="info-box-content">
+                <span class="info-box-text">แปลงบ้าน</span>
+                <span class="info-box-number"><?=$instalment[0]['house_name'];?></span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
+            <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
 
-      </div>
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box <?=$percent > 100 ?' bg-yellow' : '' ?>">
+                <span class="info-box-icon <?=$percent > 100 ?' bg-yellow' : 'bg-green' ?>">
+                    <i class="fa  fa-line-chart"></i></span>
+
+                <div class="info-box-content">
+                <span class="info-box-text">สถานะการก่อสร้าง</span>
+                <span class="info-box-number"><?=number_format($percent,2);?><small>%</small></span>
+                <span class="info-box-text"><?=$percent > 100 ?'เกินงบควบคุม' : 'ปกติ' ?></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+        </div>
             <table class="table table-bordered <?=$percent > 100 ?' bg-yellow' : '' ?>">
                 <thead>
                     <tr>

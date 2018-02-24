@@ -129,9 +129,11 @@ class CeoController extends \yii\web\Controller
             b.hm_name,b.hm_control_statment,
             (select sum(amount) as _total
                 from instalmentcostdetails
-                where house_id = a.id) as sum_amount 
+                where house_id = a.id) as sum_amount,
+            (select count(house_model_id) from house_model_have_workgroup 
+                where house_model_id = a.house_model_id) as workgroup_num
             from houses a
-            left join house_model b ON a.house_model_id = b.id
+            left join house_model b on a.house_model_id = b.id
             where a.project_id='. $project_id;
         $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
         // $searchModel = new \app\models\TestSearch();

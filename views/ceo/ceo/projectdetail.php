@@ -57,10 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'attribute' =>'',
-                    'header' => 'จำนวนงวด',
+                    'header' => 'จำนวนกลุ่มงาน',
                     'vAlign' => 'right',
                     'value' => function($model){
-                        return $model['house_status'];
+                        return $model['workgroup_num'];
                     }
                 ],
                 [
