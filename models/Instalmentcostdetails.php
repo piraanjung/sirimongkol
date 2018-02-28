@@ -70,4 +70,8 @@ class Instalmentcostdetails extends \yii\db\ActiveRecord
         return $this->hasOne(Instalment::className(),['instalment_id' => 'id']);
     }
 
+    public function getWorkGroup(){
+        return $this->hasOne(WorkGroup::className(),['worktype_id', 'id']);
+    }
+
 }

@@ -1,7 +1,9 @@
 <?php
-use yii\helpers\Html;
-?>
 
+use yii\helpers\Html;
+echo "<pre>";
+print_r($instalment);die();
+?>
 <div class="box box-success">
     <div class="row">
         <div class="col-md-2 col-xs-12">
@@ -11,13 +13,13 @@ use yii\helpers\Html;
                 $text= \app\models\Methods::getMonth($ints['instalment_monthly'])." ".
                         $ints['instalment_year']." (".$ints['instalment'].")";
                 echo Html::button($text, [ 'class' => 'btn btn-primary _inst btn-block', 
-                    'value' => $ints['inst_id'], 'id' => 'inst'.$ints['instalment']]);
+                    'value' => $ints['inst_id'], 'id' => 'inst'.$ints['instalment'],'house_id' => $ints['house_id']]);
             }
 
         ?>
         </div>
         <div class="col-md-10 col-xs-12">
-            <div id="show">nn</div>
+            <div id="show"></div>
         </div>
     </div>
 
@@ -27,10 +29,12 @@ use yii\helpers\Html;
 $this->registerJs("
     $('._inst').click(function(){
         inst_id = $(this).attr('value');
+        house_id = $(this).attr('house_id')
         $.ajax({
-            type : 'GET',
-            url  : 'index.php?r=ceo/laborcostdetails/get-data-by-instalement&id='+$(this).val(),
-               success : function(data){
+            type : 'POST',
+            data : {id : inst_id, house_id : house_id},
+            url  : 'index.php?r=ceo/laborcostdetails/get-data-by-instalement',
+            success : function(data){
                 console.log(data)
                 var t='';
                 t+= '<div class=\"row\">';

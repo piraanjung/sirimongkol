@@ -10,8 +10,10 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Houses;
 use app\models\Project;
+use app\models\WorkGroupSearch;
 use yii\db\Query;
 use yii\data\ArrayDataProvider;
+use yii\data\SqlDataProvider;
 /**
  * LaborcostdetailsController implements the CRUD actions for Laborcostdetails model.
  */
@@ -88,7 +90,7 @@ class LaborcostdetailsController extends Controller
     }
 
     public function actionInstalmentdetail_by_house(){
-        
+        $searchModel = new WorkGroupSearch();
         $this->layout = 'ceo';
         $query = new Query;
         $query->select('a.*, (select sum(amount) from instalmentcostdetails 
@@ -114,11 +116,28 @@ class LaborcostdetailsController extends Controller
             ->leftJoin('house_model h', 'g.house_model_id = h.id')
             ->leftJoin('project j', 'e.project_id = j.project_id')
             ->where(['a.house_id' => $_REQUEST['id']])
+            ->groupBy('a.instalment_id')
             // ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
             ;
         $instalment = $query->all(); 
 
-        // \app\models\Methods::print_array($instalment);
+        $sql = "
+            SELECT  a.id as house_id, a.house_name, 
+                b.hm_name, b.hm_control_statment ,
+                c.wg_id , d.wg_name, c.cost_control ,
+                (SELECT SUM(cost_control) FROM house_model_have_workgroup WHERE house_model_id = b.id ) as sum_cost_control,
+                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id) as paid_amount,
+                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id'].") as sum_paid_amount
+            FROM houses a
+            LEFT JOIN house_model b ON a.house_model_id = b.id
+            LEFT JOIN house_model_have_workgroup c ON b.id = c.house_model_id
+            LEFT JOIN work_group d ON c.wg_id = d.id
+            LEFT JOIN instalmentcostdetails e ON a.id = e.house_id
+            WHERE a.id=". $_REQUEST['id']." 
+            Group By c.wg_id";
+
+            $instalment_sum_provider =$this->generateSqlDataProvider($sql);
+        // \app\models\Methods::print_array($instalment_sum->getModels());
         //บวก sum work group
         foreach($instalment as $key => $ints){
             $query2 = new Query;
@@ -130,6 +149,8 @@ class LaborcostdetailsController extends Controller
         }
         return $this->render('instalmentdetail_by_house',[
             'instalment' => $instalment,
+            'instalment_sum_provider' => $instalment_sum_provider,
+            'searchModel' => $searchModel
         ]);
     }
 
@@ -151,7 +172,7 @@ class LaborcostdetailsController extends Controller
         // \app\models\Methods::print_array($homes);
     }
 
-    public function actionGetDataByInstalement($id){
+    public function actionGetDataByInstalement(){
        
         $sql ='SELECT 
                 a.instalment_id, a.worktype_id, a.amount, SUM(a.amount) as "sumpaid",
@@ -163,7 +184,7 @@ class LaborcostdetailsController extends Controller
             FROM `instalmentcostdetails` a
             LEFT JOIN work_group b ON a.worktype_id = b.id
             LEFT JOIN instalment c ON a.instalment_id = c.id
-            WHERE a.instalment_id='.$id.'
+            WHERE a.instalment_id='.$_REQUEST['id'].' AND  a.house_id = '.$_REQUEST['house_id'].'
             GROUP BY a.worktype_id
             ORDER BY a.`worktype_id`  ASC';
             $model = \Yii::$app->db->createCommand($sql)->queryAll();
@@ -289,5 +310,16 @@ class LaborcostdetailsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    public function generateSqlDataProvider($sql){
+        $provider = new SqlDataProvider([
+            'sql' => $sql,
+            'sort' => [
+              //  'attributes' => ['id', 'username', 'email'],
+            ],
+            'pagination' => [
+                'pageSize' => 21,
+            ],
+        ]);
+        return $provider;
+    }
 }
-// SELECT *, SUM(amount) FROM `instalmentcostdetails` WHERE `instalment_id` = 15 GROUP BY worktype_id ORDER BY `instalment_id` ASC

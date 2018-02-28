@@ -12,11 +12,11 @@ class m180221_091958_insert_house_model_have_workgroup_table extends Migration
      */
     public function safeUp()
     {
-        $this->insert('house_model_have_workgroup', [
-            'house_model_id' => 1,
-            'wg_id' => 1,
-            'cost_control' => 800
-        ]);
+        // $this->insert('house_model_have_workgroup', [
+        //     'house_model_id' => 1,
+        //     'wg_id' => 1,
+        //     'cost_control' => 800
+        // ]);
 
     }
 

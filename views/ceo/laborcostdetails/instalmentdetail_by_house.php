@@ -25,19 +25,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2><?=$this->title;?></h2>
     <div>
         <?=$this->render('_instalment_by_house_header',[
-                    'instalment' => $instalment
+                    'instalment' => $instalment,
                 ])
         ?>
     </div>
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#_by_instalment" data-toggle="tab" aria-expanded="false">งวดงาน</a></li>
+        <li class="active"><a href="#_instalment_sum" data-toggle="tab" aria-expanded="false">สรุป</a></li>
+        <li class=""><a href="#_by_instalment" data-toggle="tab" aria-expanded="false">งวดงาน</a></li>
         <li class=""><a href="#workgroup" data-toggle="tab" aria-expanded="false">กลุ่มงาน</a></li>
         <li class=""><a href="#instalmentdetails" data-toggle="tab" aria-expanded="true">รายละเอียด</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="_by_instalment">
+
+        <div class="tab-pane active" id="_instalment_sum">
+            <?=$this->render('_instalment_summary',[
+                    'instalment' => $instalment,
+                    'instalment_sum_provider' => $instalment_sum_provider,
+                    'searchModel' => $searchModel
+                ]);
+            ?>
+        </div>
+        <div class="tab-pane" id="_by_instalment">
             <?=$this->render('_instalment_by_instalment',[
-                    'instalment' => $instalment
+                    'instalment' => $instalment,
+                    // 'instalment_sum_provider' => $instalment_sum_provider,
+                    // 'searchModel' => $searchModel
                 ]);
             ?>
         </div>

@@ -95,11 +95,12 @@ class m180123_050536_insert_work_group_table extends Migration
                 ['id' => 27, 'wg_name' => 'ตะแกรง', 'wc_id'   => 3 ],
                 ['id' => 28, 'wg_name' => 'ท่อระบายน้ำ', 'wc_id'   => 3 ],
                 ['id' => 29, 'wg_name' => 'บ่อพักน้ำ', 'wc_id'   => 3 ],
-                ['id' => 30, 'wg_name' => 'บ่อตรวจ', 'wc_id'   => 3 ]
+                ['id' => 30, 'wg_name' => 'บ่อตรวจ', 'wc_id'   => 3 ],
+                ['id' => 31, 'wg_name' => 'เครื่องใช้ไฟฟ้า', 'wc_id'   => 1 ]
         ];
 
         foreach($workcgroup as $wg){
-            $this->insert('workgroup',[
+            $this->insert('work_group',[
                 'wg_name' => $wg['wg_name'],
                 'wc_id' => $wg['wc_id']
             ]);

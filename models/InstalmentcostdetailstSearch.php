@@ -21,7 +21,7 @@ class InstalmentcostdetailstSearch extends Instalmentcostdetails
             [['id', 'instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'summoney_id', 'saver_id'], 'integer'],
             [['amount'], 'number'],
             [['comment'], 'string'],
-            [['create_date', 'update_date'], 'safe'],
+            [['create_date', 'update_date', 'wg_name'], 'safe'],
         ];
     }
 
