@@ -4,7 +4,7 @@
 <div id="print">
     <h3>
     ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  
-
+<?= print_r($models);?>
 
     <?=\app\models\Instalment::date_of_instalment($models[0]['create_date']);?> 
     (งวด <?=$models[0]['monthly']."/".$models[0]['instalment'].".".$models[0]['year']?>)

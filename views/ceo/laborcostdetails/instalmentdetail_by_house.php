@@ -32,8 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <ul class="nav nav-tabs">
         <li class="active"><a href="#_instalment_sum" data-toggle="tab" aria-expanded="false">สรุป</a></li>
         <li class=""><a href="#_by_instalment" data-toggle="tab" aria-expanded="false">งวดงาน</a></li>
-        <li class=""><a href="#workgroup" data-toggle="tab" aria-expanded="false">กลุ่มงาน</a></li>
-        <li class=""><a href="#instalmentdetails" data-toggle="tab" aria-expanded="true">รายละเอียด</a></li>
+        <!-- <li class=""><a href="#workgroup" data-toggle="tab" aria-expanded="false">กลุ่มงาน</a></li>
+        <li class=""><a href="#instalmentdetails" data-toggle="tab" aria-expanded="true">รายละเอียด</a></li> -->
     </ul>
     <div class="tab-content">
 
@@ -55,10 +55,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="tab-pane" id="workgroup">
-            <?=$this->render('_instalment_by_house_workgroup',[
+            <!-- <this->render('_instalment_by_house_workgroup',[
                     'instalment' => $instalment,
                 ]);
-            ?>
+            ?> -->
         </div>
 
         <div class="tab-pane" id="instalmentdetails">

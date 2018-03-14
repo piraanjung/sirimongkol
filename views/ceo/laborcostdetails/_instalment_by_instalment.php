@@ -1,24 +1,35 @@
 <?php
 
 use yii\helpers\Html;
-echo "<pre>";
-print_r($instalment);die();
+use kartik\grid\GridView;
+
+// echo "<pre>";
+// print_r($instalment);die();
 ?>
 <div class="box box-success">
+
     <div class="row">
-        <div class="col-md-2 col-xs-12">
+        <div class="col-md-4 col-xs-12">
         
         <?php
             foreach($instalment as $ints){
+                $inst= \app\models\Methods::getMonth($ints['instalment_monthly'])." ".
+                        $ints['instalment_year']." (".$ints['instalment'].")".$ints['amount'].$ints['work_control_statement'];
+                echo    "<div class='row'>
+                            <div class='col-md-3'>".$inst."</div>
+                            <div class='col-md-4'>dssdf</div>
+                        </div>
+                
+                ";
                 $text= \app\models\Methods::getMonth($ints['instalment_monthly'])." ".
-                        $ints['instalment_year']." (".$ints['instalment'].")";
+                        $ints['instalment_year']." (".$ints['instalment'].")".$ints['amount'].$ints['work_control_statement'];
                 echo Html::button($text, [ 'class' => 'btn btn-primary _inst btn-block', 
                     'value' => $ints['inst_id'], 'id' => 'inst'.$ints['instalment'],'house_id' => $ints['house_id']]);
             }
 
         ?>
         </div>
-        <div class="col-md-10 col-xs-12">
+        <div class="col-md-8 col-xs-12">
             <div id="show"></div>
         </div>
     </div>

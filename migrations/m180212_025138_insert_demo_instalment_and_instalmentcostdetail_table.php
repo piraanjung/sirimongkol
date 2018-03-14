@@ -33,7 +33,9 @@ class m180212_025138_insert_demo_instalment_and_instalmentcostdetail_table exten
         
 
     
-        for($i=1; $i<=1000; $i++){
+        for($i=1; $i<=2000; $i++){
+            $rand_arr = ['000','00','0000','5000','250','1200','800','4500','3200','500'];
+            $a =array_rand($rand_arr,1);
             $this->insert('instalmentcostdetails', [
                 'instalment_id' => rand(1,24),
                 'contructor_id' =>rand(3,10),
@@ -42,7 +44,7 @@ class m180212_025138_insert_demo_instalment_and_instalmentcostdetail_table exten
                 'worktype_id' =>rand(1,25),
                 'work_id' =>rand(1,129),
                 'money_type_id' =>rand(1,2),
-                'amount' =>rand(1,9).array_rand(['00','000','0000'],1),
+                'amount' => rand(1,20).$rand_arr[$a],
                 'summoney_id' =>0,
                 'saver_id' =>2,
                 'comment' =>'',

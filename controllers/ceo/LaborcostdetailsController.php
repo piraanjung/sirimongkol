@@ -122,12 +122,13 @@ class LaborcostdetailsController extends Controller
         $instalment = $query->all(); 
 
         $sql = "
-            SELECT  a.id as house_id, a.house_name, 
+            SELECT  a.id as house_id, a.house_name,
                 b.hm_name, b.hm_control_statment ,
                 c.wg_id , d.wg_name, c.cost_control ,
                 (SELECT SUM(cost_control) FROM house_model_have_workgroup WHERE house_model_id = b.id ) as sum_cost_control,
                 (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id) as paid_amount,
-                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id'].") as sum_paid_amount
+                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id'].") as sum_paid_amount,
+                ((SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id)/c.cost_control)*100 as progress_percent
             FROM houses a
             LEFT JOIN house_model b ON a.house_model_id = b.id
             LEFT JOIN house_model_have_workgroup c ON b.id = c.house_model_id
@@ -137,7 +138,7 @@ class LaborcostdetailsController extends Controller
             Group By c.wg_id";
 
             $instalment_sum_provider =$this->generateSqlDataProvider($sql);
-        // \app\models\Methods::print_array($instalment_sum->getModels());
+        // \app\models\Methods::print_array($instalment_sum_provider->getModels());
         //บวก sum work group
         foreach($instalment as $key => $ints){
             $query2 = new Query;

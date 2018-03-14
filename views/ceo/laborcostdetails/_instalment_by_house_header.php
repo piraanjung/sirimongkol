@@ -55,8 +55,8 @@
             <div class="clearfix visible-sm-block"></div>
 
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box <?=$percent > 100 ?' bg-yellow' : '' ?>">
-                    <span class="info-box-icon <?=$percent > 100 ?' bg-yellow' : 'bg-green' ?>">
+                <div class="info-box" >
+                    <span class="info-box-icon">
                         <i class="fa  fa-line-chart"></i></span>
 
                     <div class="info-box-content">
@@ -71,7 +71,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box <?=$percent > 100 ?' bg-yellow' : '' ?>">
-                    <span class="info-box-icon <?=$percent > 100 ?' bg-yellow' : 'bg-green' ?>">
+                    <span class="info-box-icon">
                         <i class="fa  fa-line-chart"></i></span>
 
                     <div class="info-box-content">
@@ -86,7 +86,7 @@
 
             <div class="col-md-2 col-sm-6 col-xs-12">
                 <div class="info-box <?=$percent > 100 ?' bg-yellow' : '' ?>">
-                    <span class="info-box-icon <?=$percent > 100 ?' bg-yellow' : 'bg-green' ?>">
+                    <span class="info-box-icon">
                         <i class="fa  fa-line-chart"></i></span>
 
                     <div class="info-box-content">

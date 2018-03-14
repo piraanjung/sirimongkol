@@ -179,8 +179,10 @@ class InstalmentController extends Controller
         $paidbycash =array();
         $paidbybanks = array();
         // compose the query
-        
-        $query->select('b.*, a.total, c.instalment, c.monthly, c.year')
+        // $query->select('SUM(amount) as sum, instalment_id, contructor_id')
+        // ->from('instalmentcostdetails')
+        // ->groupBy('instalment_id');
+        $query->select('b.*,b.create_date as bb, a.total, c.instalment, c.monthly, c.year')
             ->from('summoney a')
             ->leftJoin('instalmentcostdetails b', 'a.instalment_id = b.instalment_id')
             ->leftJoin('instalment c', 'a.instalment_id = c.id')
@@ -191,7 +193,14 @@ class InstalmentController extends Controller
         $rows = $query->all();
         $command = $query->createCommand();
         $rows = $command->queryAll();
-        
+        // foreach($rows as $r){
+        //     $s = new \app\models\Summoney();
+        //     $s->contructor_id = $r['contructor_id'];
+        //     $s->total = $r['sum'];
+        //     $s->instalment_id = $r['instalment_id'];
+        //     $s->save();
+        // }
+         \app\models\Methods::print_array($rows);
         //
         $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id);//paidtype =1, instalment_id
         $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id);
